@@ -40,6 +40,15 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'nurse' => [
+            'driver' => 'passport',
+            'provider' => 'nurses',
+        ],
+
+        'patient' => [
+            'driver' => 'passport',
+            'provider' => 'patients',
+        ],
     ],
 
     /*
@@ -65,6 +74,15 @@ return [
             'model' => env('AUTH_MODEL', App\Models\User::class),
         ],
 
+        'nurses' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Nurse::class,
+        ],
+    
+        'patients' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Patient::class,
+        ],
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
