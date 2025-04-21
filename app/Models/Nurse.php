@@ -38,36 +38,38 @@ class Nurse extends  Authenticatable implements HasMedia
     protected $hidden = [
         'password',
         'remember_token',
+        'media',
     ];
     protected $casts = [
         'email_verified_at' => 'datetime',
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
     ];
+
+    
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));
     }
 
-    public function registerMediaConversions(?Media $media = null): void
-    {
-        $this
-            ->addMediaConversion('profile_image')
-            ->fit(Fit::Contain, 300, 300)
-            ->nonQueued();
-    }
-
-
     public function registerMediaCollections(): void
     {
     
-        // $this->addMediaCollection('profile_image')->singleFile();
+        $this->addMediaCollection('profile_image')->singleFile();
         $this->addMediaCollection('id_card_front')->singleFile();
         $this->addMediaCollection('id_card_back')->singleFile();
         $this->addMediaCollection('union_card_back')->singleFile();
         $this->addMediaCollection('criminal_record')->singleFile();
     }
 
+    public function registerMediaConversions(?Media $media = null): void
+    {
+        $this
+            ->addMediaConversion('nurse_avatar')
+            ->fit(Fit::Contain, 300, 300)
+            ->performOnCollections('profile_image')
+            ->nonQueued();
+    }
  
     public function getIdCardFrontUrlAttribute()
     {
@@ -89,17 +91,15 @@ class Nurse extends  Authenticatable implements HasMedia
     //     return $this->getImageFromCollection('criminal_record');
     // }
 
-    protected function getImageFromCollection($collection, $conversion = '')
+    protected $appends = ['profile_image_url'];
+
+    public function getProfileImageUrlAttribute(): string
     {
-        $file = $this->getMedia($collection)->last();
-        $default = asset('/img/default-file.png');
-
-        if (! $file) {
-            return $default;
-        }
-
-        return $conversion
-            ? $file->getUrl($conversion)
-            : $file->getUrl();
+        $file = $this->getMedia('profile_image')->last();
+        $default = asset('/img/default-avatar-nurse.png');
+    
+        return $file
+            ? $file->getUrl('nurse_avatar')
+            : $default;
     }
 }
