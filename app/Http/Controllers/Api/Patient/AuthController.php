@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use App\Mail\PatientOtpMail;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Resources\Patient\PatientInfoResource;
 
 class AuthController extends Controller
 {
@@ -88,7 +89,8 @@ class AuthController extends Controller
                 'status' => true,
                 'message' => 'Login successful.',
                 'data' => [
-                    'token' => $result['token']
+                    'token' => $result['token'],
+                    'patient' => PatientInfoResource::make($patient),
                 ]
             ], 200);
         } catch (\Exception $e) {
