@@ -84,26 +84,44 @@ class Patient extends Authenticatable implements HasMedia
             ->nonQueued();
     }
 
+    // public function getImageAttribute()
+    // {
+    //     $file = $this->getMedia('users')->last();
+
+    //     $default = assets_url('img/default-image.jpeg');
+
+    //     if (! $file) {
+    //         return $default;
+    //     }
+
+    //     $file->url = $file->getUrl();
+
+    //     $file->localUrl = asset('storage/'.$file->id.'/'.$file->file_name);
+
+    //     $path = storage_path('app/public/'.$file->id.'/'.$file->file_name);
+
+    //     if (file_exists($path)) {
+    //         return $file->localUrl;
+    //     }
+
+    //     return $default;
+    // }
+
     public function getImageAttribute()
     {
         $file = $this->getMedia('users')->last();
 
-        $default = assets_url('/img/default-image.png');
+        $default = asset('storage/img/default-image.jpeg'); // ✅ fallback image
 
         if (! $file) {
             return $default;
         }
 
-        $file->url = $file->getUrl();
+        // media path fallback (لو الصورة مش متولدة صح أو اتحذفت)
+        $filePath = storage_path("app/public/{$file->id}/{$file->file_name}");
 
-        $file->localUrl = asset('storage/'.$file->id.'/'.$file->file_name);
-
-        $path = storage_path('app/public/'.$file->id.'/'.$file->file_name);
-
-        if (file_exists($path)) {
-            return $file->localUrl;
-        }
-
-        return $default;
+        return file_exists($filePath)
+            ? asset("storage/{$file->id}/{$file->file_name}")
+            : $default;
     }
 }

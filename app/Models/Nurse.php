@@ -76,30 +76,39 @@ class Nurse extends  Authenticatable implements HasMedia
         return $this->getImageFromCollection('id_card_front');
     }
 
-    // public function getIdCardBackUrlAttribute()
-    // {
-    //     return $this->getImageFromCollection('id_card_back');
-    // }
+    public function getIdCardBackUrlAttribute()
+    {
+        return $this->getImageFromCollection('id_card_back');
+    }
 
-    // public function getUnionCardBackUrlAttribute()
-    // {
-    //     return $this->getImageFromCollection('union_card_back');
-    // }
+    public function getUnionCardBackUrlAttribute()
+    {
+        return $this->getImageFromCollection('union_card_back');
+    }
 
-    // public function getCriminalRecordUrlAttribute()
-    // {
-    //     return $this->getImageFromCollection('criminal_record');
-    // }
+    public function getCriminalRecordUrlAttribute()
+    {
+        return $this->getImageFromCollection('criminal_record');
+    }
 
     protected $appends = ['profile_image_url'];
 
-    public function getProfileImageUrlAttribute(): string
-    {
-        $file = $this->getMedia('profile_image')->last();
-        $default = asset('/img/default-avatar-nurse.png');
-    
-        return $file
-            ? $file->getUrl('nurse_avatar')
-            : $default;
-    }
+  
+
+            public function getProfileImageUrlAttribute(): string
+        {
+            $file = $this->getMedia('profile_image')->last();
+            $default = asset('storage/img/default-image.jpeg');
+
+            if (! $file) {
+                return $default;
+            }
+
+            if ($file->hasGeneratedConversion('nurse_avatar')) {
+                return $file->getUrl('nurse_avatar');
+            }
+
+            return $file->getUrl() ?? $default;
+        }
+
 }
