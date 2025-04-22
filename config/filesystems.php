@@ -60,6 +60,13 @@ return [
             'report' => false,
         ],
 
+        'nursing_public' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public'),
+            'url' => env('APP_URL') . '/nursing-app/storage/app/public',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
