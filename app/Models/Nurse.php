@@ -98,17 +98,23 @@ class Nurse extends  Authenticatable implements HasMedia
             public function getProfileImageUrlAttribute(): string
         {
             $file = $this->getMedia('profile_image')->last();
+  
             $default = asset('storage/img/default-image.jpeg');
 
             if (! $file) {
                 return $default;
             }
 
-            if ($file->hasGeneratedConversion('nurse_avatar')) {
-                return $file->getUrl('nurse_avatar');
-            }
+            // dd(  $file->id ,$file->file_name);
 
-            return $file->getUrl() ?? $default;
+            $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
+          
+            if(UR_exists($path)){
+                return $path;
+            }
+    
+
+            return $default;
         }
 
 }
