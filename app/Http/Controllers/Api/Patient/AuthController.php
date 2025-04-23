@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Cache;
+
 class AuthController extends Controller
 {
 
@@ -26,41 +27,38 @@ class AuthController extends Controller
     public function register(PatientRegisterRequest $request)
     {
         try {
-
             DB::beginTransaction();
 
-            // Step 1: Create the patient
-            $paitent = Patient::create([
+            $patient = Patient::create([
                 'full_name' => $request->full_name,
                 'email' => $request->email,
                 'phone_number' => $request->phone_number,
                 'password' => Hash::make($request->password),
             ]);
-
+            Cache::put("patient_temp_password_{$patient->email}", $request->password, now()->addMinutes(10));
 
             if ($request->hasFile('patient_avatar')) {
-                $paitent->addMedia($request->file('patient_avatar'))->toMediaCollection('patient_avatar');
+                $patient->addMedia($request->file('patient_avatar'))->toMediaCollection('patient_avatar');
             }
+
+            // توليد كود OTP
+            $otp = rand(1000, 9999);
+
+            // تخزينه في جدول otps
+            Otp::create([
+                'email' => $patient->email,
+                'otp' => $otp,
+                'expires_at' => now()->addMinutes(5),
+            ]);
+
+            // إرسال OTP بالبريد
+            Mail::to($patient->email)->send(new PatientOtpMail($otp));
 
             DB::commit();
 
-            $result = $this->issueAccessToken($request->email, $request->password, 'patients');
-
-
-            if (!$result['success']) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $result['message'],
-                    'errors' => $result['errors'] ?? null,
-                ], $result['status']);
-            }
-
             return response()->json([
-                'status' => 201,
-                'message' => 'Candidate registered and logged in successfully.',
-                'data' => [
-                    'token' => $result['token']
-                ]
+                'status' => true,
+                'message' => 'Registration successful. Please verify OTP sent to your email.',
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -73,6 +71,93 @@ class AuthController extends Controller
         }
     }
 
+
+    public function verifyRegisterOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:patients,email',
+            'otp' => 'required|digits:4',
+        ]);
+
+        $otpRecord = Otp::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->whereNull('verified_at')
+            ->where('expires_at', '>', now())
+            ->latest()
+            ->first();
+
+        if (! $otpRecord) {
+            return response()->json([
+                'status' => false,
+                'message' => 'رمز التحقق غير صحيح أو منتهي الصلاحية.',
+            ], 422);
+        }
+
+        $otpRecord->update(['verified_at' => now()]);
+
+        // إصدار التوكن
+        $patient = Patient::where('email', $request->email)->first();
+
+
+        $password = Cache::get("patient_temp_password_{$request->email}");
+        if (is_null($password)) {
+            $patient = Patient::where('email', $request->email)->first();
+
+            if ($patient) {
+                $patient->forceDelete();
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => 'انتهت صلاحية كلمة المرور المؤقتة. برجاء التسجيل مجددًا.',
+            ], 422);
+        }
+        $result = $this->issueAccessToken($patient->email, $password, 'patients');
+
+        if (! $result['success']) {
+            return response()->json([
+                'status' => false,
+                'message' => $result['message'],
+                'errors' => $result['errors'] ?? null,
+            ], $result['status']);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Account verified and logged in successfully.',
+            'data' => [
+                'token' => $result['token'],
+                'patient' => PatientInfoResource::make($patient),
+            ]
+        ]);
+    }
+
+
+    public function resendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:patients,email',
+        ]);
+
+        Otp::where('email', $request->email)
+            ->whereNull('verified_at')
+            ->delete();
+
+        $otp = rand(1000, 9999);
+
+        Otp::create([
+            'email' => $request->email,
+            'otp' => $otp,
+            'expires_at' => now()->addMinutes(5),
+        ]);
+
+        Mail::to($request->email)->send(new PatientOtpMail($otp));
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم إرسال رمز التحقق إلى بريدك الإلكتروني.',
+        ]);
+    }
 
     public function login(PatientLoginRequest $request)
     {

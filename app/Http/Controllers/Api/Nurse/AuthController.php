@@ -10,6 +10,7 @@ use App\Traits\HandlesPassportToken;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 use App\Http\Requests\Nurse\Auth\NurseLoginRequest;
+use App\Http\Resources\Nurse\NurseInfoResource;
 use App\Mail\NurseOtpMail;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Mail;
@@ -36,6 +37,8 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+            Cache::put("nurse_temp_password_{$nurse->email}", $request->password, now()->addMinutes(10));
+
 
             if ($request->hasFile('profile_image')) {
                 $nurse->addMedia($request->file('profile_image'))->toMediaCollection('profile_image');
@@ -54,25 +57,27 @@ class AuthController extends Controller
             }
 
 
+            // توليد كود OTP
+            $otp = rand(1000, 9999);
+
+            // تخزينه في جدول otps
+            Otp::create([
+                'email' => $nurse->email,
+                'otp' => $otp,
+                'expires_at' => now()->addMinutes(5),
+            ]);
+
+            // إرسال OTP بالبريد
+            Mail::to($nurse->email)->send(new NurseOtpMail($otp));
+
             DB::commit();
 
-            $result = $this->issueAccessToken($request->email, $request->password, 'nurses');
 
-            if (!$result['success']) {
-                return response()->json([
-                    'status' => false,
-                    'message' => $result['message'],
-                    'errors' => $result['errors'] ?? null,
-                ], $result['status']);
-            }
 
             return response()->json([
                 'status' => true,
-                'message' => 'Nurse registered and logged in successfully.',
-                'data' => [
-                    'token' => $result['token'],
-                    'nurse' => $nurse,
-                ]
+                'message' => 'Registration successful. Please verify OTP sent to your email.',
+               
             ], 201);
         } catch (\Throwable $e) {
             DB::rollBack();
@@ -83,6 +88,92 @@ class AuthController extends Controller
                 'error' => $e->getMessage(),
             ], 500);
         }
+    }
+
+
+    public function verifyRegisterOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:nurses,email',
+            'otp' => 'required|digits:4',
+        ]);
+
+        $otpRecord = Otp::where('email', $request->email)
+            ->where('otp', $request->otp)
+            ->whereNull('verified_at')
+            ->where('expires_at', '>', now())
+            ->latest()
+            ->first();
+
+        if (! $otpRecord) {
+            return response()->json([
+                'status' => false,
+                'message' => 'رمز التحقق غير صحيح أو منتهي الصلاحية.',
+            ], 422);
+        }
+
+        $otpRecord->update(['verified_at' => now()]);
+
+        $nurse = Nurse::where('email', $request->email)->first();
+
+
+        $password = Cache::get("nurse_temp_password_{$request->email}");
+        if (is_null($password)) {
+            $nurse = Nurse::where('email', $request->email)->first();
+
+            if ($nurse) {
+                $nurse->forceDelete();
+            }
+
+            return response()->json([
+                'status' => false,
+                'message' => 'انتهت صلاحية كلمة المرور المؤقتة. برجاء التسجيل مجددًا.',
+            ], 422);
+        }
+        $result = $this->issueAccessToken($nurse->email, $password, 'nurses');
+
+        if (! $result['success']) {
+            return response()->json([
+                'status' => false,
+                'message' => $result['message'],
+                'errors' => $result['errors'] ?? null,
+            ], $result['status']);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Account verified and logged in successfully.',
+            'data' => [
+                'token' => $result['token'],
+                'nurse' => NurseInfoResource::make($nurse),
+            ]
+        ]);
+    }
+
+    public function resendOtp(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|email|exists:nurses,email',
+        ]);
+
+        Otp::where('email', $request->email)
+            ->whereNull('verified_at')
+            ->delete();
+
+        $otp = rand(1000, 9999);
+
+        Otp::create([
+            'email' => $request->email,
+            'otp' => $otp,
+            'expires_at' => now()->addMinutes(5),
+        ]);
+
+        Mail::to($request->email)->send(new NurseOtpMail($otp));
+
+        return response()->json([
+            'status' => true,
+            'message' => 'تم إرسال رمز التحقق إلى بريدك الإلكتروني.',
+        ]);
     }
 
 
@@ -113,7 +204,7 @@ class AuthController extends Controller
                 'message' => 'Login successful.',
                 'data' => [
                     'token' => $result['token'],
-                    'nurse' => $nurse,
+                    'nurse' => NurseInfoResource::make($nurse),
                 ]
             ], 200);
         } catch (\Throwable $e) {
