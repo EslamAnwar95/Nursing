@@ -14,6 +14,7 @@ use App\Mail\PatientOtpMail;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\Patient\PatientInfoResource;
+use Illuminate\Support\Facades\DB;
 
 class AuthController extends Controller
 {
@@ -24,6 +25,9 @@ class AuthController extends Controller
     public function register(PatientRegisterRequest $request)
     {
         try {
+
+            DB::beginTransaction();
+
             // Step 1: Create the patient
             $paitent = Patient::create([
                 'full_name' => $request->full_name,
@@ -32,8 +36,16 @@ class AuthController extends Controller
                 'password' => Hash::make($request->password),
             ]);
 
+
+            if ($request->hasFile('patient_avatar')) {
+                $paitent->addMedia($request->file('patient_avatar'))->toMediaCollection('patient_avatar');
+            }
+
+            DB::commit();
+
             $result = $this->issueAccessToken($request->email, $request->password, 'patients');
 
+            
             if (!$result['success']) {
                 return response()->json([
                     'status' => false,
@@ -50,11 +62,8 @@ class AuthController extends Controller
                 ]
             ], 201);
         } catch (\Exception $e) {
-            Log::error('Registration exception', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString()
-            ]);
-
+            DB::rollBack();
+           
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong during registration.',

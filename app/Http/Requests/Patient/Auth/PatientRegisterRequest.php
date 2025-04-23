@@ -27,6 +27,7 @@ class PatientRegisterRequest extends FormRequest
             'phone_number' => ['required', 'string', 'max:15', 'unique:patients,phone_number'],
             'password' => ['required', 'string', 'min:6', 'confirmed'],
             'date_of_birth' => ['nullable', 'date'],
+            'patient_avatar' => ['nullable', 'image', 'mimes:jpg,jpeg,png', 'max:2048'],
         ];
     }
 

@@ -38,6 +38,8 @@ class Patient extends Authenticatable implements HasMedia
         'medical_history',
         'emergency_contact_name',
         'emergency_contact_phone',
+        'lat',
+        'lng',
         'is_active',
     ];
 
@@ -49,6 +51,9 @@ class Patient extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
+        'lat' => 'float',
+        'lng' => 'float',
+    
     ];
     public function getFullNameAttribute($value)
     {
@@ -109,19 +114,22 @@ class Patient extends Authenticatable implements HasMedia
 
     public function getImageAttribute()
     {
-        $file = $this->getMedia('users')->last();
+        $file = $this->getMedia('patient_avatar')->last();
 
-        $default = asset('storage/img/default-image.jpeg'); // ✅ fallback image
+        $default = asset('storage/img/default-image.jpeg');
 
         if (! $file) {
             return $default;
         }
 
-        // media path fallback (لو الصورة مش متولدة صح أو اتحذفت)
-        $filePath = storage_path("app/public/{$file->id}/{$file->file_name}");
 
-        return file_exists($filePath)
-            ? asset("storage/{$file->id}/{$file->file_name}")
-            : $default;
+        $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
+
+        if (UR_exists($path)) {
+            return $path;
+        }
+
+
+        return $default;
     }
 }

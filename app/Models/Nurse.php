@@ -31,6 +31,8 @@ class Nurse extends  Authenticatable implements HasMedia
         'national_id',
         'address',
         'union_number',
+        'lat',
+        'lng',
         'is_active',
 
     ];
@@ -44,9 +46,12 @@ class Nurse extends  Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
+        'lat' => 'float',
+        'lng' => 'float',
+    
     ];
 
-    
+
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));
@@ -54,7 +59,7 @@ class Nurse extends  Authenticatable implements HasMedia
 
     public function registerMediaCollections(): void
     {
-    
+
         $this->addMediaCollection('profile_image')->singleFile();
         $this->addMediaCollection('id_card_front')->singleFile();
         $this->addMediaCollection('id_card_back')->singleFile();
@@ -70,7 +75,7 @@ class Nurse extends  Authenticatable implements HasMedia
             ->performOnCollections('profile_image')
             ->nonQueued();
     }
- 
+
     public function getIdCardFrontUrlAttribute()
     {
         return $this->getImageFromCollection('id_card_front');
@@ -93,28 +98,27 @@ class Nurse extends  Authenticatable implements HasMedia
 
     protected $appends = ['profile_image_url'];
 
-  
 
-            public function getProfileImageUrlAttribute(): string
-        {
-            $file = $this->getMedia('profile_image')->last();
-  
-            $default = asset('storage/img/default-image.jpeg');
 
-            if (! $file) {
-                return $default;
-            }
+    public function getProfileImageUrlAttribute(): string
+    {
+        $file = $this->getMedia('profile_image')->last();
 
-            // dd(  $file->id ,$file->file_name);
+        $default = asset('storage/img/default-image.jpeg');
 
-            $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
-          
-            if(UR_exists($path)){
-                return $path;
-            }
-    
-
+        if (! $file) {
             return $default;
         }
 
+        // dd(  $file->id ,$file->file_name);
+
+        $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
+
+        if (UR_exists($path)) {
+            return $path;
+        }
+
+
+        return $default;
+    }
 }
