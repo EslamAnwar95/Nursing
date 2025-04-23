@@ -48,7 +48,7 @@ class Nurse extends  Authenticatable implements HasMedia
         'is_active' => 'boolean',
         'lat' => 'float',
         'lng' => 'float',
-    
+
     ];
 
 
@@ -96,8 +96,7 @@ class Nurse extends  Authenticatable implements HasMedia
         return $this->getImageFromCollection('criminal_record');
     }
 
-    protected $appends = ['profile_image_url'];
-
+    protected $appends = ['profile_image_url', 'id_card_front_url','id_card_back_url','union_card_back_url','criminal_record_url'];
 
 
     public function getProfileImageUrlAttribute(): string
@@ -111,6 +110,26 @@ class Nurse extends  Authenticatable implements HasMedia
         }
 
         // dd(  $file->id ,$file->file_name);
+
+        $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
+
+        if (UR_exists($path)) {
+            return $path;
+        }
+
+
+        return $default;
+    }
+
+    public function getImageFromCollection(string $collection): string
+    {
+        $file = $this->getMedia($collection)->last();
+        // dd($file);
+        $default = asset('storage/img/default-image.jpeg');
+
+        if (! $file) {
+            return $default;
+        }
 
         $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
 

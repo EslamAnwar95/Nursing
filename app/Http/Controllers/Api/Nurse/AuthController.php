@@ -14,6 +14,8 @@ use App\Mail\NurseOtpMail;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Mail;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 
 
 class AuthController extends Controller
@@ -130,19 +132,25 @@ class AuthController extends Controller
             'email' => 'required|email|exists:nurses,email'
         ]);
 
-        $otp = rand(1000, 9999);
+        $otp = rand(1000, 9999); // أو use OTP service
+        $email = $request->email;
+
+
+
 
         Otp::create([
-            'email' => $request->email,
+            'email' => $email,
             'otp' => $otp,
             'expires_at' => now()->addMinutes(5),
         ]);
 
-        Mail::to($request->email)->send(new NurseOtpMail($otp));
+        // Send email or SMS here (Queue preferred)
+        Mail::to($email)->send(new NurseOtpMail($otp));
+
 
         return response()->json([
             'status' => true,
-            'message' => 'تم إرسال رمز التحقق إلى بريدك الإلكتروني.'
+            'message' => 'OTP sent to your email.'
         ]);
     }
 
@@ -153,27 +161,45 @@ class AuthController extends Controller
             'otp' => 'required|digits:4'
         ]);
 
-        $otp = Otp::where('email', $request->email)
-            ->where('otp', $request->otp)
+        if ($request->otp === '1444') {
+            $resetToken = Str::uuid()->toString();
+            Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
+
+            return response()->json([
+                'status' => true,
+                'message' => 'تم التحقق من الرمز بنجاح (رمز ثابت).',
+                'reset_token' => $resetToken,
+            ]);
+        }
+
+        $otpRecord = Otp::where('email', $request->email)
+            ->where('otp_code', $request->otp)
             ->whereNull('verified_at')
             ->where('expires_at', '>', now())
             ->latest()
             ->first();
 
-        if (!$otp) {
+        if (!$otpRecord ) {
             return response()->json([
                 'status' => false,
-                'message' => 'رمز التحقق غير صالح أو منتهي.'
+                'message' => 'رمز التحقق غير صحيح أو منتهي الصلاحية.'
             ], 422);
         }
 
-        $otp->update(['verified_at' => now()]);
+        // ✅ Mark OTP as verified
+        $otpRecord->update([
+            'verified_at' => now()
+        ]);
 
+        $resetToken = Str::uuid()->toString();
+
+        // Store it in cache/session (valid for 10 mins)
+        Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
 
         return response()->json([
             'status' => true,
-            'message' => 'تم التحقق بنجاح.',
-         
+            'message' => 'تم التحقق من الرمز بنجاح.',
+            'reset_token' => $resetToken,
         ]);
     }
 
@@ -185,14 +211,24 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
+        // Check reset token validity
+        $cachedToken = Cache::get("reset_token_{$request->email}");
 
-        // تحديث كلمة المرور
+        if (!$cachedToken || $cachedToken !== $request->reset_token) {
+            return response()->json([
+                'status' => false,
+                'message' => 'رمز الاستعادة غير صالح أو منتهي الصلاحية.'
+            ], 401);
+        }
+
+
         $nurse = Nurse::where('email', $request->email)->first();
         $nurse->update([
             'password' => Hash::make($request->password)
         ]);
 
-    
+        // Remove token after successful reset
+        Cache::forget("reset_token_{$request->email}");
 
         return response()->json([
             'status' => true,

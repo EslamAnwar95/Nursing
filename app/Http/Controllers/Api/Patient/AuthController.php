@@ -9,13 +9,14 @@ use App\Http\Requests\Patient\Auth\PatientLoginRequest;
 use App\Models\Patient;
 use App\Traits\HandlesPassportToken;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use App\Mail\PatientOtpMail;
 use App\Models\Otp;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Resources\Patient\PatientInfoResource;
 use Illuminate\Support\Facades\DB;
 
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Cache;
 class AuthController extends Controller
 {
 
@@ -45,7 +46,7 @@ class AuthController extends Controller
 
             $result = $this->issueAccessToken($request->email, $request->password, 'patients');
 
-            
+
             if (!$result['success']) {
                 return response()->json([
                     'status' => false,
@@ -63,7 +64,7 @@ class AuthController extends Controller
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
-           
+
             return response()->json([
                 'status' => false,
                 'message' => 'Something went wrong during registration.',
@@ -168,12 +169,15 @@ class AuthController extends Controller
             'verified_at' => now()
         ]);
 
+        $resetToken = Str::uuid()->toString();
 
+        // Store it in cache/session (valid for 10 mins)
+        Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
 
         return response()->json([
-            'status' => 200,
+            'status' => true,
             'message' => 'تم التحقق من الرمز بنجاح.',
-
+            'reset_token' => $resetToken,
         ]);
     }
 
@@ -185,14 +189,24 @@ class AuthController extends Controller
             'password' => 'required|string|min:6|confirmed',
         ]);
 
+        // Check reset token validity
+        $cachedToken = Cache::get("reset_token_{$request->email}");
 
-        // تحديث كلمة المرور
+        if (!$cachedToken || $cachedToken !== $request->reset_token) {
+            return response()->json([
+                'status' => false,
+                'message' => 'رمز الاستعادة غير صالح أو منتهي الصلاحية.'
+            ], 401);
+        }
+
+
         $patient = Patient::where('email', $request->email)->first();
         $patient->update([
             'password' => Hash::make($request->password)
         ]);
 
-    
+        // Remove token after successful reset
+        Cache::forget("reset_token_{$request->email}");
 
         return response()->json([
             'status' => true,
