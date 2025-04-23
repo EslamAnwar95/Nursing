@@ -117,8 +117,9 @@ class Patient extends Authenticatable implements HasMedia
         $file = $this->getMedia('patient_avatar')->last();
 
         // $default = asset('storage/img/default-image.jpeg');
-        $default =  env('APP_MEDIA_URL') . "/default-image.jpeg";
-
+     
+        $default =  env('APP_MEDIA_URL') . "/img/default-image.jpeg";
+      
         if (! $file) {
             return $default;
         }

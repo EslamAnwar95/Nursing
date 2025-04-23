@@ -105,7 +105,7 @@ class Nurse extends  Authenticatable implements HasMedia
         $file = $this->getMedia('profile_image')->last();
 
         // $default = asset('storage/img/default-image.jpeg');
-        $default =  env('APP_MEDIA_URL') . "/default-image.jpeg";
+        $default =  env('APP_MEDIA_URL') . "/img/default-image.jpeg";
 
         if (! $file) {
             return $default;
@@ -128,7 +128,7 @@ class Nurse extends  Authenticatable implements HasMedia
         // dd($file);
         // $default = asset('storage/img/default-image.jpeg');
 
-        $default =  env('APP_MEDIA_URL') . "/default-image.jpeg";
+        $default =  env('APP_MEDIA_URL') . "/img/default-image.jpeg";
         if (! $file) {
             return $default;
         }
