@@ -1,25 +1,24 @@
 <?php
 
-namespace App\Http\Controllers\Api\Patient;
+namespace App\Http\Controllers\Api\Nurse;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ProfilePatientController extends Controller
+class ProfileNurseController extends Controller
 {
     
     public function __construct()
     {
-        $this->middleware('auth:patient');
+        $this->middleware('auth:nurse');
     }
 
     public function profile(Request $request)
     {
-        $patient = $request->user();
+        $nurse = $request->user();
         return response()->json([
             'status' => true,
-            'message' => 'Patient profile retrieved successfully',
-            'data' => new \App\Http\Resources\Patient\PatientInfoResource($patient),
+            'message' => 'Nurse profile retrieved successfully',
         ]);
     }
 
@@ -32,8 +31,8 @@ class ProfilePatientController extends Controller
             'address' => 'nullable|string|max:255',
         ]);
 
-        $patient = $request->user();
-        $patient->update([
+        $nurse = $request->user();
+        $nurse->update([
             'lat' => $request->lat,
             'lng' => $request->lng,
             'address' => $request->address,
@@ -41,7 +40,7 @@ class ProfilePatientController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Patient location updated successfully',
+            'message' => 'Nurse location updated successfully',
         ]);
     }
 }

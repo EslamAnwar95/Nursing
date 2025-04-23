@@ -12,7 +12,8 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
-
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\DB;
 
 class Nurse extends  Authenticatable implements HasMedia
 {
@@ -96,20 +97,20 @@ class Nurse extends  Authenticatable implements HasMedia
         return $this->getImageFromCollection('criminal_record');
     }
 
-    protected $appends = ['profile_image_url', 'id_card_front_url','id_card_back_url','union_card_back_url','criminal_record_url'];
+    protected $appends = ['profile_image_url', 'id_card_front_url', 'id_card_back_url', 'union_card_back_url', 'criminal_record_url'];
 
 
     public function getProfileImageUrlAttribute(): string
     {
         $file = $this->getMedia('profile_image')->last();
 
-        $default = asset('storage/img/default-image.jpeg');
+        // $default = asset('storage/img/default-image.jpeg');
+        $default =  env('APP_MEDIA_URL') . "/default-image.jpeg";
 
         if (! $file) {
             return $default;
         }
 
-        // dd(  $file->id ,$file->file_name);
 
         $path = env('APP_MEDIA_URL') . "/{$file->id}/{$file->file_name}";
 
@@ -125,8 +126,9 @@ class Nurse extends  Authenticatable implements HasMedia
     {
         $file = $this->getMedia($collection)->last();
         // dd($file);
-        $default = asset('storage/img/default-image.jpeg');
+        // $default = asset('storage/img/default-image.jpeg');
 
+        $default =  env('APP_MEDIA_URL') . "/default-image.jpeg";
         if (! $file) {
             return $default;
         }
@@ -139,5 +141,22 @@ class Nurse extends  Authenticatable implements HasMedia
 
 
         return $default;
+    }
+
+    public function scopeNearby(Builder $query, float $lat, float $lng, float $radius = 10): Builder
+    {
+        return $query->select('*', DB::raw("
+            (6371 * acos(
+                cos(radians($lat)) *
+                cos(radians(lat)) *
+                cos(radians($lng) - radians(lng)) +
+                sin(radians($lat)) *
+                sin(radians(lat))
+            )) AS distance
+        "))
+            ->whereNotNull('lat')
+            ->whereNotNull('lng')
+            ->having('distance', '<', $radius)
+            ->orderBy('distance');
     }
 }

@@ -82,7 +82,7 @@ class AuthController extends Controller
             if (!$patient || !Hash::check($request->password, $patient->password)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.'
+                    'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة. او غير مسجل كا مريض'
                 ], 401);
             }
             $result = $this->issueAccessToken($request->email, $request->password, 'patients');

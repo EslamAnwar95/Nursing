@@ -94,7 +94,7 @@ class AuthController extends Controller
             if (!$nurse || !Hash::check($request->password, $nurse->password)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة.'
+                    'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة. او غير مسجل كا ممرض'
                 ], 401);
             }
 

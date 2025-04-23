@@ -14,18 +14,7 @@ class PatientInfoResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // 'full_name',
-        // 'email',
-        // 'phone_number',
-        // 'password',
-        // 'date_of_birth',
-        // 'gender',
-        // 'national_id',
-        // 'address',
-        // 'medical_history',
-        // 'emergency_contact_name',
-        // 'emergency_contact_phone',
-        // 'is_active',
+        
         return [
             'id' => $this->id,
             'full_name' => $this->full_name,
