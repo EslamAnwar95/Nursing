@@ -204,7 +204,7 @@ class AuthController extends Controller
                 'message' => 'Login successful.',
                 'data' => [
                     'token' => $result['token'],
-                    'nurse' => NurseInfoResource::make($nurse),
+                    'user' => NurseInfoResource::make($nurse),
                 ]
             ], 200);
         } catch (\Throwable $e) {

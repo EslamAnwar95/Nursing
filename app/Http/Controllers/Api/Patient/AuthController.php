@@ -185,7 +185,7 @@ class AuthController extends Controller
                 'message' => 'Login successful.',
                 'data' => [
                     'token' => $result['token'],
-                    'patient' => PatientInfoResource::make($patient),
+                    'user' => PatientInfoResource::make($patient),
                 ]
             ], 200);
         } catch (\Exception $e) {
