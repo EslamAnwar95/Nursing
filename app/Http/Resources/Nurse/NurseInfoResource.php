@@ -38,6 +38,8 @@ class NurseInfoResource extends JsonResource
             'union_card_back_url' => $this->union_card_back_url,
             'criminal_record_url' => $this->criminal_record_url,
             
+            'type' => class_basename($this->resource) ,
+
             // 'is_verified' => $this->is_verified,
             // 'is_approved' => $this->is_approved,
             // 'is_blocked' => $this->is_blocked,

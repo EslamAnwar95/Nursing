@@ -30,6 +30,8 @@ class PatientInfoResource extends JsonResource
             'is_active' => $this->is_active,
             'image' => $this->image,
 
+            'type' => class_basename($this->resource) ,
+
         ];
     }
 }
