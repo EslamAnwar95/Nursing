@@ -145,7 +145,7 @@ class AuthController extends Controller
             'message' => 'Account verified and logged in successfully.',
             'data' => [
                 'token' => $result['token'],
-                'nurse' => NurseInfoResource::make($nurse),
+                'user' => NurseInfoResource::make($nurse),
             ]
         ]);
     }
