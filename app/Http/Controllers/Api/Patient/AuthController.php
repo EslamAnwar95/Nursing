@@ -35,7 +35,6 @@ class AuthController extends Controller
                 'phone_number' => $request->phone_number,
                 'password' => Hash::make($request->password),
             ]);
-            Cache::put("patient_temp_password_{$patient->email}", $request->password, now()->addMinutes(10));
 
             if ($request->hasFile('patient_avatar')) {
                 $patient->addMedia($request->file('patient_avatar'))->toMediaCollection('patient_avatar');
@@ -56,9 +55,22 @@ class AuthController extends Controller
 
             DB::commit();
 
+            $result = $this->issueAccessToken($patient->email, $request->password, 'patients');
+
+            if (! $result['success']) {
+                DB::rollBack();  
+                return response()->json([
+                    'status' => false,
+                    'message' => $result['message'],
+                    'errors' => $result['errors'] ?? null,
+                ], $result['status']);
+            }
             return response()->json([
                 'status' => true,
                 'message' => 'Registration successful. Please verify OTP sent to your email.',
+                'data' => [
+                    'token' => $result['token'],
+                ]
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();
@@ -95,38 +107,15 @@ class AuthController extends Controller
 
         $otpRecord->update(['verified_at' => now()]);
 
-        // إصدار التوكن
         $patient = Patient::where('email', $request->email)->first();
+        $patient->update(['is_verified' => true]);
 
-
-        $password = Cache::get("patient_temp_password_{$request->email}");
-        if (is_null($password)) {
-            $patient = Patient::where('email', $request->email)->first();
-
-            if ($patient) {
-                $patient->forceDelete();
-            }
-
-            return response()->json([
-                'status' => false,
-                'message' => 'انتهت صلاحية كلمة المرور المؤقتة. برجاء التسجيل مجددًا.',
-            ], 422);
-        }
-        $result = $this->issueAccessToken($patient->email, $password, 'patients');
-
-        if (! $result['success']) {
-            return response()->json([
-                'status' => false,
-                'message' => $result['message'],
-                'errors' => $result['errors'] ?? null,
-            ], $result['status']);
-        }
-
+                
         return response()->json([
             'status' => true,
             'message' => 'Account verified and logged in successfully.',
             'data' => [
-                'token' => $result['token'],
+              
                 'user' => PatientInfoResource::make($patient),
             ]
         ]);

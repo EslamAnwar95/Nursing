@@ -35,6 +35,8 @@ class Nurse extends  Authenticatable implements HasMedia
         'lat',
         'lng',
         'is_active',
+        'is_verified',
+
 
     ];
 
@@ -53,6 +55,11 @@ class Nurse extends  Authenticatable implements HasMedia
     ];
 
 
+    public function isVerified(): bool
+    {
+        return $this->is_verified === true;
+    }
+    
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));

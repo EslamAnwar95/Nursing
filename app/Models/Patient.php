@@ -41,6 +41,8 @@ class Patient extends Authenticatable implements HasMedia
         'lat',
         'lng',
         'is_active',
+        'is_verified',
+
     ];
 
     protected $hidden = [
@@ -53,8 +55,16 @@ class Patient extends Authenticatable implements HasMedia
         'is_active' => 'boolean',
         'lat' => 'float',
         'lng' => 'float',
-    
+
     ];
+
+
+    public function isVerified(): bool
+    {
+        return $this->is_verified === true;
+    }
+
+
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));
@@ -117,9 +127,9 @@ class Patient extends Authenticatable implements HasMedia
         $file = $this->getMedia('patient_avatar')->last();
 
         // $default = asset('storage/img/default-image.jpeg');
-     
+
         $default =  env('APP_MEDIA_URL') . "/img/default-image.jpeg";
-      
+
         if (! $file) {
             return $default;
         }

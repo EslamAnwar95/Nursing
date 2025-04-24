@@ -24,6 +24,14 @@ class HomePatientController extends Controller
         $radius = $request->radius ?? 10;
         $type = $request->type ?? 'nurse';
         $perPage = $request->per_page ?? 15;
+
+        if (empty($lat) || empty($lng)) {
+            return response()->json([
+                'status' => false,
+                'message' => 'You have not set your location yet. Please update your location first.',
+                'data' => [],
+            ]);
+        }
         $results = $this->handleNearbySearch($type, $lat, $lng, $radius, $perPage);
     
         if (empty($results)) {

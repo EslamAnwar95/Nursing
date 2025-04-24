@@ -15,11 +15,15 @@ Route::group(['middleware' => ['api']], function () {
     Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])
         ->middleware(['throttle']); 
 
+    // 🟡 Routes without verification (just login/register)
     include __DIR__ . "/Api/Nurse/auth.php";
-    include __DIR__ . "/Api/Nurse/profile.php";
-    // include __DIR__ . "/Api/Nurse/home.php";
-    include __DIR__ . "/Api/Patient/home.php";
     include __DIR__ . "/Api/Patient/auth.php";
-    include __DIR__ . "/Api/Patient/profile.php";
 
+    // 🟢 Verified-only routes (profile, home, etc.)
+    Route::middleware(['verified.user'])->group(function () {
+        include __DIR__ . "/Api/Nurse/profile.php";
+        include __DIR__ . "/Api/Patient/profile.php";
+        include __DIR__ . "/Api/Patient/home.php";
+        // include __DIR__ . "/Api/Nurse/home.php";
+    });
 });
