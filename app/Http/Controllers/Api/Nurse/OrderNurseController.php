@@ -13,13 +13,15 @@ class OrderNurseController extends Controller
 {
     public function store(Request $request)
     {
+        // dd(1);
         $request->validate([
             'nurse_id' => 'required|exists:nurses,id',
             'schedule_at' => 'required|date',
             'price' => 'required|numeric|min:0',
             'notes' => 'nullable|string|max:255',
             'patient_condition' => 'nullable|string|max:255',
-            'visit_hours' => 'required|integer|min:1|max:24',
+            'visit_date' => 'required|date|after_or_equal:today',
+
             'visit_time' => 'nullable|in:morning,evening',
             'nurse_hours_id' => 'required|exists:nurse_hours,id',
             'address' => 'required|string|max:255',
@@ -30,8 +32,18 @@ class OrderNurseController extends Controller
             'floor' => 'nullable|string|max:255',
             'apartment' => 'nullable|string|max:255',
         ]);
-
         try {
+
+
+            $nurse = Nurse::where('id', $request->nurse_id)->where('is_active', true)->first();
+
+            if (! $nurse) {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('messages.nurse_not_available'),
+                ], 422);
+            }
+
             DB::beginTransaction();
             $order = Order::create([
                 'patient_id' => auth('patient')->id(),
@@ -48,6 +60,7 @@ class OrderNurseController extends Controller
                 'order_id' => $order->id,
                 'patient_condition' => $request->patient_condition,
                 'visit_hours' => $request->visit_hours,
+                'nurse_hours_id' => $request->nurse_hours_id,
                 'address' => $request->address,
                 'city' => $request->city,
                 'area' => $request->area,
@@ -81,7 +94,7 @@ class OrderNurseController extends Controller
     {
         $order = Order::with('nurseOrderDetail', 'provider')
         ->where('patient_id', auth('patient')->id())
-        ->findOrFail($id);
+        ->find($id);
 
         if (!$order) {
             return response()->json([

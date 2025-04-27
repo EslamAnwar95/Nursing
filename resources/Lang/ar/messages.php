@@ -37,5 +37,6 @@ return [
     "order_deleted_successfully" => "تم حذف الطلب بنجاح",
     "order_deletion_failed" => "فشل حذف الطلب",
     "order_status_updated_successfully" => "تم تحديث حالة الطلب بنجاح",
+    "nurse_not_available" => "الممرض غير متاح",
 
 ];

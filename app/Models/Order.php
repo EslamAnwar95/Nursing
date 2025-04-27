@@ -29,5 +29,9 @@ class Order extends Model
     {
         return $this->morphTo();
     }
-    
+
+    public function nurseOrderDetail()
+    {
+        return $this->hasOne(NurseOrderDetail::class);
+    }
 }

@@ -37,4 +37,5 @@ return [
     "order_deleted_successfully" => "Order deleted successfully",
     "order_deletion_failed" => "Order deletion failed",
     "order_status_updated_successfully" => "Order status updated successfully",
+    "nurse_not_available" => "Nurse not available",
 ];
