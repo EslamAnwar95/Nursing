@@ -3,6 +3,8 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Foundation\Configuration\Exceptions;
 use App\Http\Middleware\EnsureUserIsVerified;
+use App\Http\Middleware\SetLocaleFromHeader;
+
 
 $app = Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -21,5 +23,6 @@ $app = Application::configure(basePath: dirname(__DIR__))
 
 // ✅ تسجيل alias للميدلوير custom
 $app->router->aliasMiddleware('verified.user', EnsureUserIsVerified::class);
+$app->router->aliasMiddleware('set.locale', SetLocaleFromHeader::class);
 
 return $app;

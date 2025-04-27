@@ -82,7 +82,7 @@ class AuthController extends Controller
             }
             return response()->json([
                 'status' => true,
-                'message' => 'Registration successful. Please verify OTP sent to your email.',
+                'message' => __('messages.registration_successful_verify_otp'),
                 'data' => [
                     'token' => $result['token'],
                 ]
@@ -92,7 +92,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => false,
-                'message' => 'حدث خطأ أثناء التسجيل.',
+                'message' => __('messages.registration_failed'),
                 'error' => $e->getMessage(),
             ], 500);
         }
@@ -123,7 +123,7 @@ class AuthController extends Controller
         if (! $otpRecord) {
             return response()->json([
                 'status' => false,
-                'message' => 'رمز التحقق غير صحيح أو منتهي الصلاحية.',
+                'message' => __('messages.otp_invalid'),
             ], 422);
         }
 
@@ -136,7 +136,7 @@ class AuthController extends Controller
 
     return response()->json([
         'status' => true,
-        'message' => 'Account verified and logged in successfully.',
+        'message' => __('messages.account_verified'),
         'data' => [
             'user' => NurseInfoResource::make($nurse),
         ]
@@ -178,7 +178,7 @@ class AuthController extends Controller
             if (!$nurse || !Hash::check($request->password, $nurse->password)) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'البريد الإلكتروني أو كلمة المرور غير صحيحة. او غير مسجل كا ممرض'
+                    'message' => __('messages.invalid_credentials_or_not_nurse'),
                 ], 401);
             }
 
@@ -194,7 +194,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'Login successful.',
+                'message' => __('messages.login_successful'),
                 'data' => [
                     'token' => $result['token'],
                     'user' => NurseInfoResource::make($nurse),
@@ -203,7 +203,7 @@ class AuthController extends Controller
         } catch (\Throwable $e) {
             return response()->json([
                 'status' => false,
-                'message' => 'حدث خطأ أثناء تسجيل الدخول.',
+                'message' => __('messages.login_failed'),
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -234,7 +234,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'OTP sent to your email.'
+            'message' => __('messages.otp_sent'),
         ]);
     }
 
@@ -244,9 +244,10 @@ class AuthController extends Controller
             'email' => 'required|email|exists:nurses,email',
             'otp' => 'required|digits:4'
         ]);
+        $resetToken = Str::uuid()->toString();
+
 
         if ($request->otp === '1444') {
-            $resetToken = Str::uuid()->toString();
             Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
 
             return response()->json([
@@ -257,7 +258,7 @@ class AuthController extends Controller
         }
 
         $otpRecord = Otp::where('email', $request->email)
-            ->where('otp_code', $request->otp)
+            ->where('otp', $request->otp)
             ->whereNull('verified_at')
             ->where('expires_at', '>', now())
             ->latest()
@@ -266,7 +267,7 @@ class AuthController extends Controller
         if (!$otpRecord ) {
             return response()->json([
                 'status' => false,
-                'message' => 'رمز التحقق غير صحيح أو منتهي الصلاحية.'
+                'message' => __('messages.otp_invalid'),
             ], 422);
         }
 
@@ -275,14 +276,13 @@ class AuthController extends Controller
             'verified_at' => now()
         ]);
 
-        $resetToken = Str::uuid()->toString();
 
         // Store it in cache/session (valid for 10 mins)
         Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
 
         return response()->json([
             'status' => true,
-            'message' => 'تم التحقق من الرمز بنجاح.',
+            'message' => __('messages.account_verified'),
             'reset_token' => $resetToken,
         ]);
     }
@@ -301,7 +301,7 @@ class AuthController extends Controller
         if (!$cachedToken || $cachedToken !== $request->reset_token) {
             return response()->json([
                 'status' => false,
-                'message' => 'رمز الاستعادة غير صالح أو منتهي الصلاحية.'
+                'message' => __('messages.reset_token_invalid_or_expired'),
             ], 401);
         }
 
@@ -316,7 +316,7 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'تم تغيير كلمة المرور بنجاح.'
+            'message' => __('messages.password_reset_successfully'),
         ]);
     }
 }

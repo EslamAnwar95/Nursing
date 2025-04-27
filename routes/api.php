@@ -10,7 +10,7 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 // })->middleware('auth:sanctum');
 
 
-Route::group(['middleware' => ['api']], function () {
+Route::group(['middleware' => ['api','set.locale']], function () {
 
     Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])
         ->middleware(['throttle']); 

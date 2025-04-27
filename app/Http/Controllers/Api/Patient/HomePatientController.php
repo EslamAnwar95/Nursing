@@ -28,7 +28,7 @@ class HomePatientController extends Controller
         if (empty($lat) || empty($lng)) {
             return response()->json([
                 'status' => false,
-                'message' => 'You have not set your location yet. Please update your location first.',
+                'message' => __('messages.location_not_set'),
                 'data' => [],
             ]);
         }
@@ -37,14 +37,14 @@ class HomePatientController extends Controller
         if (empty($results)) {
             return response()->json([
                 'status' => false,
-                'message' => "No results found for type: {$type}",
+                'message' => __('messages.no_results_found_for_type', ['type' => $type]),
                 'data' => [],
             ]);
         }
     
         return HomePatientResource::collection($results)->additional([
             'status' => true,
-            'message' => "Nearby {$type}s loaded successfully",
+            'message' => __('messages.nearby_type_loaded_successfully', ['type' => $type]),
         ]);
     }
 

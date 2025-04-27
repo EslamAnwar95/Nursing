@@ -21,7 +21,7 @@ class EnsureUserIsVerified
         if ($user && method_exists($user, 'isVerified') && ! $user->isVerified()) {
             return response()->json([
                 'status' => false,
-                'message' => 'لم يتم التحقق من حسابك بعد. يرجى التحقق أولاً.',
+                'message' => __('messages.account_not_verified'),
             ], 403);
         }
 

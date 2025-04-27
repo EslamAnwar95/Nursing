@@ -18,7 +18,8 @@ class ProfileNurseController extends Controller
         $nurse = $request->user();
         return response()->json([
             'status' => true,
-            'message' => 'Nurse profile retrieved successfully',
+            'message' => __('messages.nurse_profile_retrieved_successfully'),
+            'data' => new \App\Http\Resources\Nurse\NurseInfoResource($nurse),
         ]);
     }
 
@@ -40,7 +41,7 @@ class ProfileNurseController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Nurse location updated successfully',
+            'message' => __('messages.nurse_location_updated_successfully'),
         ]);
     }
 }

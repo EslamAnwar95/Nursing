@@ -18,7 +18,7 @@ class ProfilePatientController extends Controller
         $patient = $request->user();
         return response()->json([
             'status' => true,
-            'message' => 'Patient profile retrieved successfully',
+            'message' => __('messages.patient_profile_retrieved_successfully'),
             'data' => new \App\Http\Resources\Patient\PatientInfoResource($patient),
         ]);
     }
@@ -41,7 +41,7 @@ class ProfilePatientController extends Controller
 
         return response()->json([
             'status' => true,
-            'message' => 'Patient location updated successfully',
+            'message' => __('messages.patient_location_updated_successfully'),
         ]);
     }
 }
