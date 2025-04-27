@@ -32,6 +32,11 @@ class Nurse extends  Authenticatable implements HasMedia
         'national_id',
         'address',
         'union_number',
+        "description_ar",
+        "description_en",
+        "work_hours_ar",
+        "work_hours_en",
+        "experience_years",
         'lat',
         'lng',
         'is_active',
@@ -49,17 +54,21 @@ class Nurse extends  Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
-        'lat' => 'float',
-        'lng' => 'float',
+        'lat' => 'double',
+        'lng' => 'double',
 
     ];
 
 
     public function isVerified(): bool
     {
-        return $this->is_verified === true;
+        return $this->is_verified == true;
     }
     
+    public function workHours()
+    {
+        return $this->hasMany(NurseHours::class, 'nurse_id');
+    }
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));
@@ -132,7 +141,6 @@ class Nurse extends  Authenticatable implements HasMedia
     public function getImageFromCollection(string $collection): string
     {
         $file = $this->getMedia($collection)->last();
-        // dd($file);
         // $default = asset('storage/img/default-image.jpeg');
 
         $default =  env('APP_MEDIA_URL') . "/img/default-image.jpeg";

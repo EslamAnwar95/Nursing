@@ -14,9 +14,9 @@ return [
     'login_failed' => 'An error occurred during login.',
     'invalid_credentials_or_not_patient' => 'Invalid email or password, or not registered as a patient.', 
    
-    'account_not_verified' => 'Your account is not verified yet. Please verify first.',
+    'account_not_verified' => 'Your email address is not verified yet. Please verify first.',
 
-    
+
     'otp_verified_static' => 'OTP verified successfully (static code).',
     'reset_token_invalid_or_expired' => 'The reset token is invalid or has expired.',
     'password_reset_successfully' => 'Password has been reset successfully.',
@@ -28,4 +28,13 @@ return [
     'nearby_type_loaded_successfully' => 'Nearby :type loaded successfully',
 
 
+    "work_hour_added_successfully" => "Work hours added successfully",
+    "work_hour_updated_successfully" => "Work hours updated successfully",
+    "order_created_successfully" => "Order created successfully",
+    "order_updated_successfully" => "Order updated successfully",
+    "order_creation_failed" => "Order creation failed",
+    "order_update_failed" => "Order update failed",
+    "order_deleted_successfully" => "Order deleted successfully",
+    "order_deletion_failed" => "Order deletion failed",
+    "order_status_updated_successfully" => "Order status updated successfully",
 ];

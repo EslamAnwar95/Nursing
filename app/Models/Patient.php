@@ -53,15 +53,15 @@ class Patient extends Authenticatable implements HasMedia
         'email_verified_at' => 'datetime',
         'date_of_birth' => 'date',
         'is_active' => 'boolean',
-        'lat' => 'float',
-        'lng' => 'float',
+        'lat' => 'double',
+        'lng' => 'double',
 
     ];
 
 
     public function isVerified(): bool
     {
-        return $this->is_verified === true;
+        return $this->is_verified == true;
     }
 
 

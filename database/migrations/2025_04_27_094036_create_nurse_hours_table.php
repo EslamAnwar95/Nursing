@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('nurse_id')->constrained('nurses')->onDelete('cascade');
             $table->integer('hours');
             $table->integer('price');
-            $table->enum('day', ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday']);
+            $table->enum('day', ['saturday', 'sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday'])->default('saturday');
             $table->string('additional_hours')->nullable();
             $table->string('additional_price')->nullable();
-            $table->enum('time', ['morning', 'evening']);
+            $table->enum('time', ['morning', 'evening'])->default('morning');
             $table->enum('status', ['active', 'inactive'])->default('active');
            
             $table->timestamps();

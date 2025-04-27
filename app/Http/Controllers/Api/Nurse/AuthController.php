@@ -175,6 +175,7 @@ class AuthController extends Controller
         try {
             $nurse = Nurse::where('email', $request->email)->first();
 
+
             if (!$nurse || !Hash::check($request->password, $nurse->password)) {
                 return response()->json([
                     'status' => false,
@@ -182,6 +183,12 @@ class AuthController extends Controller
                 ], 401);
             }
 
+            if (!$nurse->is_verified) {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('messages.account_not_verified'),
+                ], 409);
+            }
             $result = $this->issueAccessToken($request->email, $request->password, 'nurses');
 
             if (!$result['success']) {

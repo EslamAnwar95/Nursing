@@ -15,9 +15,9 @@ return [
     'login_failed' => 'حدث خطأ أثناء تسجيل الدخول.',
     'otp_verified_static' => 'تم التحقق من الرمز بنجاح (رمز ثابت).',
 
-    'account_not_verified' => 'لم يتم التحقق من حسابك بعد. يرجى التحقق أولاً.',
+    'account_not_verified' => 'لم يتم التحقق من بريدك الالكتروني بعد. يرجى التحقق أولاً.',
 
-    
+
     'reset_token_invalid_or_expired' => 'رمز الاستعادة غير صالح أو منتهي الصلاحية.',
     'password_reset_successfully' => 'تم تغيير كلمة المرور بنجاح.',
     'patient_location_updated_successfully' => 'تم تحديث موقع المريض بنجاح.',
@@ -28,5 +28,14 @@ return [
     'no_results_found_for_type' => 'لم يتم العثور على نتائج للنوع: :type',
     'nearby_type_loaded_successfully' => 'تم تحميل الأقرب :type بنجاح',
 
+    "work_hour_added_successfully" => "تمت إضافة ساعات العمل بنجاح",
+    "work_hour_updated_successfully" => "تم تحديث ساعات العمل بنجاح",
+    "order_created_successfully" => "تم إنشاء الطلب بنجاح",
+    "order_updated_successfully" => "تم تحديث الطلب بنجاح",
+    "order_creation_failed" => "فشل إنشاء الطلب",
+    "order_update_failed" => "فشل تحديث الطلب",
+    "order_deleted_successfully" => "تم حذف الطلب بنجاح",
+    "order_deletion_failed" => "فشل حذف الطلب",
+    "order_status_updated_successfully" => "تم تحديث حالة الطلب بنجاح",
 
 ];

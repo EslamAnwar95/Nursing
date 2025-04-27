@@ -16,13 +16,11 @@ class EnsureUserIsVerified
     public function handle(Request $request, Closure $next): Response
     {
         $user = $request->user();
-
-        
         if ($user && method_exists($user, 'isVerified') && ! $user->isVerified()) {
             return response()->json([
                 'status' => false,
                 'message' => __('messages.account_not_verified'),
-            ], 403);
+            ], 409);
         }
 
         return $next($request);

@@ -24,6 +24,8 @@ Route::group(['middleware' => ['api','set.locale']], function () {
         include __DIR__ . "/Api/Nurse/profile.php";
         include __DIR__ . "/Api/Patient/profile.php";
         include __DIR__ . "/Api/Patient/home.php";
+        include __DIR__ . "/Api/Nurse/order.php";
+
         // include __DIR__ . "/Api/Nurse/home.php";
     });
 });
