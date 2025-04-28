@@ -18,7 +18,10 @@ class HomePatientController extends Controller
  
     public function home(Request $request)
     {
+
+       
         $patient = $request->user();
+        $search = $request['name'];
         $lat = $patient->lat;
         $lng = $patient->lng;
         $radius = $request->radius ?? 10;
@@ -32,7 +35,8 @@ class HomePatientController extends Controller
                 'data' => [],
             ]);
         }
-        $results = $this->handleNearbySearch($type, $lat, $lng, $radius, $perPage);
+       
+        $results = $this->handleNearbySearch($type, $search, $lat, $lng, $radius, $perPage);
     
         if (empty($results)) {
             return response()->json([
@@ -48,11 +52,11 @@ class HomePatientController extends Controller
         ]);
     }
 
-    private function handleNearbySearch(string $type, float $lat, float $lng, int $radius, int $perPage = 15)
+    private function handleNearbySearch(string $type,string $search, float $lat, float $lng, int $radius, int $perPage = 15)
     {
         switch ($type) {
             case 'nurse':
-                return \App\Models\Nurse::nearby($lat, $lng, $radius)->paginate($perPage);
+                return \App\Models\Nurse::where('is_available',1)->where('full_name', 'like', "{$search}%")->nearby($lat, $lng, $radius)->paginate($perPage);
 
             case 'hospital':
                 // return \App\Models\Hospital::nearby($lat, $lng, $radius)->paginate($perPage);

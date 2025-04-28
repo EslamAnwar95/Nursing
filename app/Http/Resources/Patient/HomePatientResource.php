@@ -18,6 +18,7 @@ class HomePatientResource extends JsonResource
             'id' => $this->id,
             'full_name' => $this->full_name,
             'address' => $this->address,
+            "phone_number" => $this->phone_number,
             'lat' => $this->lat,
             'lng' => $this->lng,
             'rate' => $this->rate,

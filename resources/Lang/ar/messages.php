@@ -38,5 +38,12 @@ return [
     "order_deletion_failed" => "فشل حذف الطلب",
     "order_status_updated_successfully" => "تم تحديث حالة الطلب بنجاح",
     "nurse_not_available" => "الممرض غير متاح",
-
+    "order_not_found" => "لم يتم العثور على الطلب",
+    "order_statuses_retrieved_successfully" => "تم استرجاع حالات الطلب بنجاح",
+    'order_retrieved_successfully' => 'تم استرجاع الطلب بنجاح.',
+    "orders_retrieved_successfully" => "تم استرجاع الطلبات بنجاح",
+    "order_rejected_successfully" => "تم رفض الطلب بنجاح",
+    "order_accepted_successfully" => "تم قبول الطلب بنجاح",
+    "order_rejection_failed" => "فشل رفض الطلب",
+    "order_acceptance_failed" => "فشل قبول الطلب",
 ];

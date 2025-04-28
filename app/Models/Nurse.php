@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -13,6 +14,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\Image\Enums\Fit;
 use Spatie\MediaLibrary\MediaCollections\Models\Media;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Support\Facades\DB;
 
 class Nurse extends  Authenticatable implements HasMedia
@@ -64,14 +66,28 @@ class Nurse extends  Authenticatable implements HasMedia
     {
         return $this->is_verified == true;
     }
-    
+
     public function workHours()
     {
         return $this->hasMany(NurseHours::class, 'nurse_id');
     }
+
+    public function orders(): MorphMany
+    {
+        return $this->morphMany(Order::class, 'provider');
+    }
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));
+    }
+
+    public function getAgeAttribute(): ?int
+    {
+        if (!$this->date_of_birth) {
+            return null; // لو مفيش تاريخ ميلاد
+        }
+
+        return Carbon::parse($this->date_of_birth)->age;
     }
 
     public function registerMediaCollections(): void

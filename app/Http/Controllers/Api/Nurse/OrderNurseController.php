@@ -3,98 +3,85 @@
 namespace App\Http\Controllers\Api\Nurse;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Nurse\OrderInfoNurseResource;
+use App\Http\Resources\Nurse\StatusResource;
 use App\Models\Nurse;
 use App\Models\NurseOrderDetail;
 use App\Models\Order;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderNurseController extends Controller
 {
-    public function store(Request $request)
+
+
+    public function update(Request $request, $id)
     {
-        // dd(1);
         $request->validate([
-            'nurse_id' => 'required|exists:nurses,id',
-            'schedule_at' => 'required|date',
-            'price' => 'required|numeric|min:0',
-            'notes' => 'nullable|string|max:255',
-            'patient_condition' => 'nullable|string|max:255',
-            'visit_date' => 'required|date|after_or_equal:today',
-
-            'visit_time' => 'nullable|in:morning,evening',
-            'nurse_hours_id' => 'required|exists:nurse_hours,id',
-            'address' => 'required|string|max:255',
-            'city' => 'nullable|string|max:255',
-            'area' => 'nullable|string|max:255',
-            'street' => 'nullable|string|max:255',
-            'building' => 'nullable|string|max:255',
-            'floor' => 'nullable|string|max:255',
-            'apartment' => 'nullable|string|max:255',
+            'status_id' => 'required|exists:statuses,id',
         ]);
-        try {
 
+        $order = Order::where('patient_id', auth('patient')->id())->find($id);
 
-            $nurse = Nurse::where('id', $request->nurse_id)->where('is_active', true)->first();
-
-            if (! $nurse) {
-                return response()->json([
-                    'status' => false,
-                    'message' => __('messages.nurse_not_available'),
-                ], 422);
-            }
-
-            DB::beginTransaction();
-            $order = Order::create([
-                'patient_id' => auth('patient')->id(),
-                'provider_id' => $request->nurse_id,
-                'provider_type' => Nurse::class,
-                'status' => 'pending',
-                'scheduled_at' => $request->scheduled_at,
-                'price' => $request->price,
-                'notes' => $request->notes,
-            ]);
-
-
-            NurseOrderDetail::create([
-                'order_id' => $order->id,
-                'patient_condition' => $request->patient_condition,
-                'visit_hours' => $request->visit_hours,
-                'nurse_hours_id' => $request->nurse_hours_id,
-                'address' => $request->address,
-                'city' => $request->city,
-                'area' => $request->area,
-                'street' => $request->street,
-                'building' => $request->building,
-                'floor' => $request->floor,
-                'apartment' => $request->apartment,
-            ]);
-
-            DB::commit();
-
-            return response()->json([
-                'status' => true,
-                'message' => __('messages.order_created_successfully'),
-                'data' => [
-                    'order_id' => $order->id
-                ],
-            ], 201);
-        } catch (\Exception $e) {
-            DB::rollBack();
+        if (!$order) {
             return response()->json([
                 'status' => false,
-                'message' => __('messages.order_creation_failed'),
-                'error' => $e->getMessage(),
-            ], 500);
+                'message' => __('messages.order_not_found'),
+            ], 404);
         }
-        
+
+        $order->update(['status_id' => $request->status_id]);
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.order_status_updated_successfully'),
+        ]);
     }
+
+
+
+    public function getStatuses(Request $request)
+    {
+        $statuses = Status::where('type', 'nurse')
+            ->orderBy('order', 'asc')
+            ->get();
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.order_statuses_retrieved_successfully'),
+            'data' => StatusResource::collection($statuses),
+        ]);
+    }
+
+    public function getOrders(Request $request)
+    {
+        $nurse = auth('nurse')->user();
+
+        $orders = Order::with('patient', 'nurseOrderDetail','status','provider')
+            ->where('provider_id', $nurse->id)
+            ->where('provider_type', Nurse::class)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+
+        
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.orders_retrieved_successfully'),
+            'data' => OrderInfoNurseResource::collection($orders),
+        ]);
+    }
+
 
     public function show($id)
     {
-        $order = Order::with('nurseOrderDetail', 'provider')
-        ->where('patient_id', auth('patient')->id())
-        ->find($id);
+        $nurse = auth('nurse')->user();
+
+        $order = Order::with('patient', 'nurseOrderDetail')
+            ->where('provider_id', $nurse->id)
+            ->where('provider_type', Nurse::class)
+            ->find($id);
 
         if (!$order) {
             return response()->json([
@@ -106,7 +93,77 @@ class OrderNurseController extends Controller
         return response()->json([
             'status' => true,
             'message' => __('messages.order_retrieved_successfully'),
-            'data' => $order,
+            'data' => new OrderInfoNurseResource($order),
         ]);
+    }
+    public function acceptOrder(Request $request, $id)
+    {
+        $nurse = auth('nurse')->user();
+
+        $order = Order::where('provider_id', $nurse->id)
+            ->where('provider_type', Nurse::class)
+            ->find($id);
+
+        if (!$order) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+            ], 404);
+        }
+
+        
+        if ($order->status_id != 1) { 
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_already_accepted_or_rejected'),
+            ], 400);
+        }
+
+        try {
+            $order->update(['status_id' => 2]); // Assuming 2 is the ID for "Accepted" status
+
+            return response()->json([
+                'status' => true,
+                'message' => __('messages.order_accepted_successfully'),
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_acceptance_failed'),
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+    public function rejectOrder(Request $request, $id)
+    {
+        $nurse = auth('nurse')->user();
+
+        $order = Order::where('provider_id', $nurse->id)
+            ->where('provider_type', Nurse::class)
+            ->find($id);
+
+        if (!$order) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+            ], 404);
+        }
+
+
+        try {
+            $order->update(['status_id' => 3]); // Assuming 3 is the ID for "Rejected" status
+           return response()->json([
+                'status' => true,
+                'message' => __('messages.order_rejected_successfully'),
+            ]);
+        } catch (\Exception $e) {
+
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_rejection_failed'),
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 }

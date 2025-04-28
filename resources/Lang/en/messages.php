@@ -38,4 +38,12 @@ return [
     "order_deletion_failed" => "Order deletion failed",
     "order_status_updated_successfully" => "Order status updated successfully",
     "nurse_not_available" => "Nurse not available",
+    "order_not_found" => "Order not found",
+    "order_statuses_retrieved_successfully" => "Order statuses retrieved successfully",
+    'order_retrieved_successfully' => 'Order retrieved successfully.',
+    "orders_retrieved_successfully" => "Orders retrieved successfully",
+    "order_rejected_successfully" => "Order rejected successfully",
+    "order_accepted_successfully" => "Order accepted successfully",
+    "order_rejection_failed" => "Order rejection failed",
+    "order_acceptance_failed" => "Order acceptance failed",
 ];

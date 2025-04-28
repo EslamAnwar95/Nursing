@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -72,6 +73,15 @@ class Patient extends Authenticatable implements HasMedia
     public function setFullNameAttribute($value)
     {
         $this->attributes['full_name'] = ucwords(strtolower($value));
+    }
+
+    public function getAgeAttribute(): ?int
+    {
+        if (!$this->date_of_birth) {
+            return null; // لو مفيش تاريخ ميلاد
+        }
+
+        return Carbon::parse($this->date_of_birth)->age;
     }
     public function getPhoneNumberAttribute($value)
     {

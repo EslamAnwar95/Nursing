@@ -13,7 +13,7 @@ class Order extends Model
         'patient_id',
         'provider_id',
         'provider_type',
-        'status',
+        'status_id',
         'scheduled_at',
         'price',
         'notes',
@@ -22,7 +22,7 @@ class Order extends Model
     
     public function patient()
     {
-        return $this->belongsTo(Patient::class);
+        return $this->belongsTo(Patient::class)->withTrashed();
     }
 
     public function provider()
@@ -33,5 +33,10 @@ class Order extends Model
     public function nurseOrderDetail()
     {
         return $this->hasOne(NurseOrderDetail::class);
+    }
+
+    public function status()
+    {
+        return $this->belongsTo(Status::class);
     }
 }
