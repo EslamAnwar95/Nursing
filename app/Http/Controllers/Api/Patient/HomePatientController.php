@@ -9,19 +9,19 @@ use Illuminate\Http\Request;
 
 class HomePatientController extends Controller
 {
-    
+
     // public function __construct()
     // {
     //     $this->middleware('auth:patient');
     // }
 
- 
+
     public function home(Request $request)
     {
 
-       
+
         $patient = $request->user();
-        $search = $request['name'];
+        $search = $request['name'] ?? '';
         $lat = $patient->lat;
         $lng = $patient->lng;
         $radius = $request->radius ?? 10;
@@ -35,9 +35,9 @@ class HomePatientController extends Controller
                 'data' => [],
             ]);
         }
-       
+
         $results = $this->handleNearbySearch($type, $search, $lat, $lng, $radius, $perPage);
-    
+
         if (empty($results)) {
             return response()->json([
                 'status' => false,
@@ -45,28 +45,37 @@ class HomePatientController extends Controller
                 'data' => [],
             ]);
         }
-    
+
         return HomePatientResource::collection($results)->additional([
             'status' => true,
             'message' => __('messages.nearby_type_loaded_successfully', ['type' => $type]),
         ]);
     }
 
-    private function handleNearbySearch(string $type,string $search, float $lat, float $lng, int $radius, int $perPage = 15)
+    private function handleNearbySearch(string $type, string $search, float $lat, float $lng, int $radius, int $perPage = 15)
     {
         switch ($type) {
             case 'nurse':
-                return \App\Models\Nurse::where('is_available',1)->where('full_name', 'like', "{$search}%")->nearby($lat, $lng, $radius)->paginate($perPage);
 
+                $result =  \App\Models\Nurse::query();
+
+                $result->where('is_available', 1);
+
+                if ($search !== '') {
+                    $result->where('full_name', 'like', "{$search}%");
+                }
+
+
+                $result =  $result->nearby($lat, $lng, $radius)->paginate($perPage);
+
+                return $result;
             case 'hospital':
                 // return \App\Models\Hospital::nearby($lat, $lng, $radius)->paginate($perPage);
 
                 return [];
 
-                default:
+            default:
                 throw new \InvalidArgumentException("Unsupported type: {$type}");
         }
     }
-
-    
 }
