@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Order extends Model
 {
-    
+
     protected $table = 'orders';
 
     protected $fillable = [
@@ -19,7 +19,7 @@ class Order extends Model
         'notes',
     ];
 
-    
+
     public function patient()
     {
         return $this->belongsTo(Patient::class)->withTrashed();
@@ -30,6 +30,11 @@ class Order extends Model
         return $this->morphTo();
     }
 
+    public function transaction()
+    {
+        return $this->hasOne(OrderTransaction::class);
+    }
+
     public function nurseOrderDetail()
     {
         return $this->hasOne(NurseOrderDetail::class);
@@ -38,5 +43,10 @@ class Order extends Model
     public function status()
     {
         return $this->belongsTo(Status::class);
+    }
+
+    public function nurseHour()
+    {
+        return $this->hasOne(NurseHours::class, 'id', 'nurse_hours_id');
     }
 }

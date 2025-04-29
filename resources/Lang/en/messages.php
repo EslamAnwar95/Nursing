@@ -46,4 +46,5 @@ return [
     "order_accepted_successfully" => "Order accepted successfully",
     "order_rejection_failed" => "Order rejection failed",
     "order_acceptance_failed" => "Order acceptance failed",
+    "work_hours_retrieved_successfully" => "Work hours retrieved successfully",
 ];

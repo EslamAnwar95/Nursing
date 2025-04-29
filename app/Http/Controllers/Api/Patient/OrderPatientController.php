@@ -5,25 +5,28 @@ namespace App\Http\Controllers\Api\Patient;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Nurse\StatusResource;
 use App\Models\Nurse;
+use App\Models\NurseHours;
 use App\Models\NurseOrderDetail;
 use App\Models\Order;
+use App\Models\OrderTransaction;
 use App\Models\Status;
+use App\Traits\OrderTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class OrderPatientController extends Controller
 {
+    use OrderTrait;
+
     public function store(Request $request)
     {
-        
         $request->validate([
             'nurse_id' => 'required|exists:nurses,id',
-            'schedule_at' => 'required|date',
-            'price' => 'required|numeric|min:0',
+            'scheduled_at' => 'required|date',
+            // 'price' => 'required|numeric|min:0',
             'notes' => 'nullable|string|max:255',
             'patient_condition' => 'nullable|string|max:255',
             'visit_date' => 'required|date|after_or_equal:today',
-
             'visit_time' => 'nullable|in:morning,evening',
             'nurse_hours_id' => 'required|exists:nurse_hours,id',
             'address' => 'required|string|max:255',
@@ -33,9 +36,9 @@ class OrderPatientController extends Controller
             'building' => 'nullable|string|max:255',
             'floor' => 'nullable|string|max:255',
             'apartment' => 'nullable|string|max:255',
+            'payment_method' => 'required|in:cash,credit_card',
         ]);
         try {
-
 
             $nurse = Nurse::where('id', $request->nurse_id)->where('is_active', true)->first();
 
@@ -44,6 +47,18 @@ class OrderPatientController extends Controller
                     'status' => false,
                     'message' => __('messages.nurse_not_available'),
                 ], 422);
+            }   
+
+            $priceModel = NurseHours::where('id', $request->nurse_hours_id)
+                ->where('nurse_id', $request->nurse_id)
+                ->where('status', 'active')
+                ->first();
+
+            if (!$priceModel) {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('messages.nurse_hours_not_available'),
+                ], 422);
             }
 
             DB::beginTransaction();
@@ -51,9 +66,9 @@ class OrderPatientController extends Controller
                 'patient_id' => auth('patient')->id(),
                 'provider_id' => $request->nurse_id,
                 'provider_type' => Nurse::class,
-                'status' => 'pending',
+                'status_id' => '1',
                 'scheduled_at' => $request->scheduled_at,
-                'price' => $request->price,
+                'price' => $priceModel->price,
                 'notes' => $request->notes,
             ]);
 
@@ -61,7 +76,7 @@ class OrderPatientController extends Controller
             NurseOrderDetail::create([
                 'order_id' => $order->id,
                 'patient_condition' => $request->patient_condition,
-                'visit_hours' => $request->visit_hours,
+                // 'visit_hours' => $request->visit_hours,
                 'nurse_hours_id' => $request->nurse_hours_id,
                 'address' => $request->address,
                 'city' => $request->city,
@@ -72,6 +87,21 @@ class OrderPatientController extends Controller
                 'apartment' => $request->apartment,
             ]);
 
+            $prices = $this->calculateTotalPrice($order);
+
+            OrderTransaction::create([
+                'order_id' => $order->id,               
+                'provider_id' => $request->nurse_id,
+                'provider_type' => Nurse::class,
+                'total_price' => $priceModel->price,
+                'vat_value' => $prices['vat_value'],
+                'app_fee' => $prices['app_fee'],
+                'provider_earning' => $prices['provider_earning'],
+                'payment_method' => $request->payment_method,
+                "payment_status" => 'pending',
+                'status' => 'pending',
+            ]);
+            
             DB::commit();
 
             return response()->json([
@@ -93,6 +123,7 @@ class OrderPatientController extends Controller
     }
 
    
+    
     public function show($id)
     {
         $order = Order::with('nurseOrderDetail', 'provider')

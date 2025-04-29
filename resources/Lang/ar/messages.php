@@ -46,4 +46,5 @@ return [
     "order_accepted_successfully" => "تم قبول الطلب بنجاح",
     "order_rejection_failed" => "فشل رفض الطلب",
     "order_acceptance_failed" => "فشل قبول الطلب",
+    "work_hours_retrieved_successfully" => "تم استرجاع ساعات العمل بنجاح",
 ];

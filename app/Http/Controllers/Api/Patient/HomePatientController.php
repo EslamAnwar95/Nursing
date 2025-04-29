@@ -18,6 +18,13 @@ class HomePatientController extends Controller
 
     public function home(Request $request)
     {
+        //validation
+        $request->validate([
+            'name' => 'string|nullable',
+            'radius' => 'numeric|nullable',
+            'type' => 'string|in:nurse,hospital|nullable',
+            'per_page' => 'integer|nullable',
+        ]);
 
 
         $patient = $request->user();
@@ -75,6 +82,7 @@ class HomePatientController extends Controller
                 return [];
 
             default:
+                return [];
                 throw new \InvalidArgumentException("Unsupported type: {$type}");
         }
     }

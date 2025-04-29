@@ -76,6 +76,11 @@ class Nurse extends  Authenticatable implements HasMedia
     {
         return $this->morphMany(Order::class, 'provider');
     }
+
+    public function transactions(): MorphMany
+    {
+        return $this->morphMany(OrderTransaction::class, 'provider');
+    }
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));

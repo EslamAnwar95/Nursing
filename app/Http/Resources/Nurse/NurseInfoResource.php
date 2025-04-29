@@ -32,6 +32,10 @@ class NurseInfoResource extends JsonResource
             'emergency_contact_phone' => $this->emergency_contact_phone,
 
             'is_active' => $this->is_active,
+
+            'is_available' => $this->is_available,
+
+            "work_hours" => WorkHourseNurseResource::collection($this->workHours),
             'profile_image_url' => $this->profile_image_url,
             'id_card_front_url' => $this->id_card_front_url,
             'id_card_back_url' => $this->id_card_back_url,
@@ -40,11 +44,7 @@ class NurseInfoResource extends JsonResource
             
             'type' => class_basename($this->resource) ,
 
-            // 'is_verified' => $this->is_verified,
-            // 'is_approved' => $this->is_approved,
-            // 'is_blocked' => $this->is_blocked,
-            // 'is_online' => $this->is_online,
-            // 'is_available' => $this->is_available,
+            
         
         ];
     }
