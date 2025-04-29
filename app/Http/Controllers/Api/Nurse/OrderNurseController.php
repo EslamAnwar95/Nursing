@@ -56,6 +56,7 @@ class OrderNurseController extends Controller
 
     public function getOrders(Request $request)
     {
+      
         $nurse = auth('nurse')->user();
 
         $orders = Order::with('patient', 'nurseOrderDetail','status','provider')
@@ -66,10 +67,16 @@ class OrderNurseController extends Controller
 
 
         
-        return response()->json([
+        // return response()->json([
+        //     'status' => true,
+        //     'message' => __('messages.orders_retrieved_successfully'),
+        //     'data' => OrderInfoNurseResource::collection($orders),
+        // ]);
+
+        return OrderInfoNurseResource::collection($orders)
+        ->additional([
             'status' => true,
             'message' => __('messages.orders_retrieved_successfully'),
-            'data' => OrderInfoNurseResource::collection($orders),
         ]);
     }
 
