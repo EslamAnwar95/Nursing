@@ -29,4 +29,8 @@ Route::prefix('nurse')->middleware('auth:nurse')->group(function () {
     Route::post('orders/{order}/reject', [OrderNurseController::class, 'rejectOrder'])->name('orders.reject');
  // route to get orders statuses
 
+ // update status
+
+    Route::post('orders/{order}/update-status', [OrderNurseController::class, 'updateStatus'])->name('orders.update-status');
+
 });

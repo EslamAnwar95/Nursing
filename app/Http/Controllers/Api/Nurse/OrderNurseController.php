@@ -165,4 +165,40 @@ class OrderNurseController extends Controller
             ], 500);
         }
     }
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status_id' => 'required|exists:statuses,id',
+        ]);
+
+        $validStatusIds = Status::where('type', 'nurse')->pluck('id')->toArray();
+
+        if (!in_array($request->status_id, $validStatusIds)) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.invalid_status_for_nurse'),
+            ], 422);
+        }
+
+
+        $nurse = auth('nurse')->user();
+
+        $order = Order::where('provider_id', $nurse->id)
+            ->where('provider_type', Nurse::class)
+            ->find($id);
+        if (!$order) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_not_found'),
+            ], 404);
+        }
+
+        $order->update(['status_id' => $request->status_id]);
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.order_status_updated_successfully'),
+        ]);
+    }
 }

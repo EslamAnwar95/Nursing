@@ -77,6 +77,23 @@ class Nurse extends  Authenticatable implements HasMedia
         return $this->morphMany(Order::class, 'provider');
     }
 
+    public function ratings()
+    {
+        return $this->morphMany(Rating::class, 'provider');
+    }
+
+    public function getAverageRatingAttribute()
+    {
+        return $this->ratings()->avg('rate');
+    }
+    public function getTotalOrdersAttribute()
+    {
+        return $this->orders()->count();
+    }
+    public function getTotalRatingAttribute()
+    {
+        return $this->ratings()->count();
+    }
     public function transactions(): MorphMany
     {
         return $this->morphMany(OrderTransaction::class, 'provider');
@@ -89,7 +106,7 @@ class Nurse extends  Authenticatable implements HasMedia
     public function getAgeAttribute(): ?int
     {
         if (!$this->date_of_birth) {
-            return null; // لو مفيش تاريخ ميلاد
+            return null;
         }
 
         return Carbon::parse($this->date_of_birth)->age;

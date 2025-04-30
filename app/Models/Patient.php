@@ -65,6 +65,19 @@ class Patient extends Authenticatable implements HasMedia
         return $this->is_verified == true;
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+    public function ratings()
+    {
+        return $this->hasMany(Rating::class);
+    }
+
+    public function nurseOrders()
+    {
+        return $this->hasMany(Order::class, 'patient_id')->where('provider_type', Nurse::class);
+    }
 
     public function getFullNameAttribute($value)
     {

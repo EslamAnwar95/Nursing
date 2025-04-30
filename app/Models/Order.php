@@ -49,4 +49,9 @@ class Order extends Model
     {
         return $this->hasOne(NurseHours::class, 'id', 'nurse_hours_id');
     }
+
+    public function rating()
+    {
+        return $this->hasOne(Rating::class, 'order_id', 'id');
+    }
 }

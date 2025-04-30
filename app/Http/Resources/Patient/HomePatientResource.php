@@ -17,11 +17,13 @@ class HomePatientResource extends JsonResource
         return [
             'id' => $this->id,
             'full_name' => $this->full_name,
-            'address' => $this->address,
-            "phone_number" => $this->phone_number,
-            'lat' => $this->lat,
-            'lng' => $this->lng,
-            'rate' => $this->rate,
+            'address' => $this->address ?? '',
+            "phone_number" => $this->phone_number ?? '',
+            'lat' => $this->lat ?? '',
+            'lng' => $this->lng ?? '',
+            'rate' => round($this->average_rating,2),
+            'total_orders' => $this->total_orders,
+            'total_rating' => $this->total_rating,
             'image' => $this->profile_image_url,
             'type' => class_basename($this->resource) ,
 

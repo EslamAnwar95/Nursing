@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Nurse\OrderNurseController;
 use App\Http\Controllers\Api\Patient\OrderPatientController;
+use App\Http\Controllers\Api\Patient\RatingController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('patient')->middleware('auth:patient')->group(function () {
@@ -13,6 +14,8 @@ Route::prefix('patient')->middleware('auth:patient')->group(function () {
  
     // get nurse work hours
     Route::get('get-nurse-work-hours/{id}', [OrderPatientController::class, 'getNurseWorkHours'])->name('orders.get-nurse-work-hours');
+
+    Route::post('add-rate/{order}', [RatingController::class, 'rateOrder'])->name('orders.rate');
 });
 
 
