@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Passport\HasApiTokens;
 use Spatie\MediaLibrary\InteractsWithMedia;
@@ -77,6 +78,11 @@ class Patient extends Authenticatable implements HasMedia
     public function nurseOrders()
     {
         return $this->hasMany(Order::class, 'patient_id')->where('provider_type', Nurse::class);
+    }
+
+    public function favorites(): HasMany
+    {
+        return $this->hasMany(Favorite::class);
     }
 
     public function getFullNameAttribute($value)
