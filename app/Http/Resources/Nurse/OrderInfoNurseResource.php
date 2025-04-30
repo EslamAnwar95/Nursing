@@ -21,6 +21,7 @@ class OrderInfoNurseResource extends JsonResource
             'status' => new StatusResource($this->status),
             'nurse' => new HomeNurseResource($this->provider),
             "price" => $this->price,
+            "nurse_work_hours" => new WorkHourseNurseResource($this->nurse_hours),
             "schedule_at" => $this->schedule_at,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
