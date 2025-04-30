@@ -9,6 +9,7 @@ use App\Models\Nurse;
 use App\Models\NurseOrderDetail;
 use App\Models\Order;
 use App\Models\Status;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -41,11 +42,9 @@ class OrderNurseController extends Controller
 
 
 
-    public function getStatuses(Request $request)
+    public function getStatuses(): JsonResponse
     {
-        $statuses = Status::where('type', 'nurse')
-            ->orderBy('order', 'asc')
-            ->get();
+        $statuses = Status::orderBy('order')->whereType('nurse')->get();
 
         return response()->json([
             'status' => true,
@@ -64,14 +63,7 @@ class OrderNurseController extends Controller
             ->where('provider_type', Nurse::class)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
-
-
-        
-        // return response()->json([
-        //     'status' => true,
-        //     'message' => __('messages.orders_retrieved_successfully'),
-        //     'data' => OrderInfoNurseResource::collection($orders),
-        // ]);
+                
 
         return OrderInfoNurseResource::collection($orders)
         ->additional([

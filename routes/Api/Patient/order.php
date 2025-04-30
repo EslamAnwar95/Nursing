@@ -10,6 +10,9 @@ Route::prefix('patient')->middleware('auth:patient')->group(function () {
     // Route::post('orders/{order}/update', [OrderNurseController::class, 'update'])->name('orders.update');
  // route to get orders statuses
 
+ 
+    // get nurse work hours
+    Route::get('get-nurse-work-hours/{id}', [OrderPatientController::class, 'getNurseWorkHours'])->name('orders.get-nurse-work-hours');
 });
 
 

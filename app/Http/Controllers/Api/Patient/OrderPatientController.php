@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\Patient;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Nurse\StatusResource;
+use App\Http\Resources\Nurse\WorkHourseNurseResource;
 use App\Models\Nurse;
 use App\Models\NurseHours;
 use App\Models\NurseOrderDetail;
@@ -144,6 +145,36 @@ class OrderPatientController extends Controller
         ]);
     }
    
+
+    public function getNurseWorkHours($id)
+    {
+        
+        $nurse = Nurse::where('id', $id)->where('is_active', true)->first();
+
+        if (! $nurse) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.nurse_not_available'),
+            ], 422);
+        }   
+
+        $nurseHours = NurseHours::where('nurse_id', $id)
+            ->where('status', 'active')
+            ->get();
+
+        if ($nurseHours->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.nurse_hours_not_available'),
+            ], 422);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.nurse_hours_retrieved_successfully'),
+            'data' => WorkHourseNurseResource::collection($nurseHours),
+        ]);
+    }
    
 
    

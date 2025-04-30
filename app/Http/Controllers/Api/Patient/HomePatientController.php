@@ -22,7 +22,7 @@ class HomePatientController extends Controller
         $request->validate([
             'name' => 'string|nullable',
             'radius' => 'numeric|nullable',
-            'type' => 'string|in:nurse,hospital|nullable',
+            'type' => 'string|in:nurse,hospital,blood_bank,lab,ray|nullable',
             'per_page' => 'integer|nullable',
         ]);
 
