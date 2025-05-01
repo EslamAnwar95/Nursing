@@ -187,6 +187,9 @@ class AuthController extends Controller
                 ], $result['status']);
             }
 
+            // Update the patient's device token
+            $this->updateFirebaseTokenWhileLogin($request,$patient);
+
             return response()->json([
                 'status' => true,
                 'message' => __('messages.login_successful'),
@@ -206,7 +209,48 @@ class AuthController extends Controller
         }
     }
 
+    public function updateFirebaseTokenWhileLogin(Request $request,$patient)
+    {                
+        $patient->deviceTokens()->updateOrCreate(
+            ['fcm_token' => $request->fcm_token],
+            ['provider_type' => Patient::class],
+            ['device_type' => $request->device_type]
+        );
 
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.firebase_token_updated'),
+        ]);
+    }
+
+    public function updateFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+            'device_type' => 'required|in:android,ios',
+        ]);
+        $patient = auth('patient')->user();
+
+        if (!$patient) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.unauthenticated'),
+            ], 401);
+        }
+
+        $patient->deviceTokens()->updateOrCreate(
+            ['provider_id' => $patient->id, 'provider_type' => get_class($patient),'device_type' => $request->device_type],
+            [
+                'fcm_token' => $request->fcm_token,
+                'device_type' => $request->device_type
+            ]
+        );
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.firebase_token_updated'),
+        ]);
+    }
     public function forgetPassword(Request $request)
     {
         $request->validate([

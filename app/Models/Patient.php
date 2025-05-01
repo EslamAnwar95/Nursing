@@ -75,6 +75,11 @@ class Patient extends Authenticatable implements HasMedia
         return $this->hasMany(Rating::class);
     }
 
+    public function deviceTokens()
+    {
+        return $this->morphMany(DeviceToken::class, 'provider');
+    }
+
     public function nurseOrders()
     {
         return $this->hasMany(Order::class, 'patient_id')->where('provider_type', Nurse::class);

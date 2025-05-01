@@ -24,6 +24,8 @@ class PatientLoginRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'exists:patients,email'],
             'password' => ['required', 'string', 'min:6'],
+            'fcm_token' => 'required|string',
+            'device_type' => 'required|in:android,ios',
         ];
     }
 

@@ -16,6 +16,8 @@ Route::prefix('patient')->name('patient.')->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('resend-otp', [AuthController::class, 'resendOtp']);
     
+    Route::post('update-fcm-token', [AuthController::class, 'updateFcmToken']);
+
     // Route::middleware('auth:patient')->group(function () {
     //     Route::get('profile', [AuthController::class, 'profile']);
     // });

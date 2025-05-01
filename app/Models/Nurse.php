@@ -43,6 +43,7 @@ class Nurse extends  Authenticatable implements HasMedia
         'lng',
         'is_active',
         'is_verified',
+        "is_available",
 
 
     ];
@@ -176,6 +177,10 @@ class Nurse extends  Authenticatable implements HasMedia
         return $default;
     }
 
+    public function deviceTokens()
+    {
+        return $this->morphMany(DeviceToken::class, 'provider');
+    }
     public function getImageFromCollection(string $collection): string
     {
         $file = $this->getMedia($collection)->last();

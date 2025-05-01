@@ -1,5 +1,6 @@
 <?php
 
+use App\Services\FirebaseService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Laravel\Passport\Http\Controllers\AccessTokenController;
@@ -29,4 +30,17 @@ Route::group(['middleware' => ['api','set.locale']], function () {
         include __DIR__ . "/Api/Patient/favorite.php";
         // include __DIR__ . "/Api/Nurse/home.php";
     });
+
+    Route::get('/test-fcm', function (FirebaseService $fcm) {
+        $fcm->sendToDevice(
+            'd6TCu7icRfmx78W3LU61nT:APA91bErGzC9YB3PY0xhXIN71YZfU0qthMrTV7mYE2zyrQmjngb9kMcBOusop_chJFWkr9JLvAVlB3kQ9gxHRkVw-zG2nOYSxDp7ErBBOaOBO7giirpXqxM',
+            'تجربة الإشعار 🎯',
+            'هذا إشعار تجريبي من Laravel + Firebase',
+            ['click_action' => 'FLUTTER_NOTIFICATION_CLICK']
+        );
+    
+        return 'Notification sent!';
+    });
 });
+
+
