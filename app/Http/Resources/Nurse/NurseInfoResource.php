@@ -26,11 +26,14 @@ class NurseInfoResource extends JsonResource
             'address' => $this->address,
             'lat' => $this->lat,
             'lng' => $this->lng,
-            'rate' => $this->rate,
+            // 'rate' => $this->rate,
             'medical_history' => $this->medical_history,
             'emergency_contact_name' => $this->emergency_contact_name,
             'emergency_contact_phone' => $this->emergency_contact_phone,
 
+             'rate' => round($this->average_rating,2),
+            'total_orders' => $this->total_orders,
+            'total_rating' => $this->total_rating,
             'is_active' => $this->is_active,
 
             'is_available' => $this->is_available,

@@ -21,10 +21,10 @@ class HomePatientResource extends JsonResource
             "phone_number" => $this->phone_number ?? '',
             'lat' => $this->lat ?? '',
             'lng' => $this->lng ?? '',
-            'rate' => round($this->average_rating,2),
-            'total_orders' => $this->total_orders,
-            'total_rating' => $this->total_rating,
-            'image' => $this->profile_image_url,
+            // 'rate' => round($this->average_rating,2),
+            // 'total_orders' => $this->total_orders,
+            // 'total_rating' => $this->total_rating,
+            'image' => $this->image,
             'type' => class_basename($this->resource) ,
 
         ];
