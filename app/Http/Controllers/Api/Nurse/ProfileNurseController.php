@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Nurse;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Nurse\TransactionLogsNurseResource;
 use App\Http\Resources\Nurse\WorkHourseNurseResource;
 use App\Models\Nurse;
 use App\Models\NurseHours;
@@ -10,6 +11,7 @@ use App\Models\Order;
 use App\Models\OrderTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Kreait\Firebase\Database\Transaction;
 
 class ProfileNurseController extends Controller
 {
@@ -163,7 +165,7 @@ class ProfileNurseController extends Controller
         $nurse = auth('nurse')->user();
 
         // Get the transactions for the nurse
-        $transactions = OrderTransaction::where('provider_id', $nurse->id)
+        $transactions = OrderTransaction::with('provider')->where('provider_id', $nurse->id)
             ->where('provider_type', Nurse::class)
             ->where('payment_method', 'cash')
             // ->where('payment_status', 'completed')
@@ -197,14 +199,11 @@ class ProfileNurseController extends Controller
 
 
 
-        return response()->json([
-            'status' => true,
-            'message' => __('messages.transactions_logs_retrieved_successfully'),
-            'data' => [
+        return TransactionLogsNurseResource::collection($transactions)
+            ->additional([
+                'status' => true,
+                'message' => __('messages.transactions_retrieved_successfully'),
                 'balance' => $balance,
-                'transactions' => $transactions,
-               
-            ],
-        ]);
+            ]);
     }
 }
