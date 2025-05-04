@@ -194,11 +194,7 @@ class ProfileNurseController extends Controller
             ->value('total');
 
             $balance = ($creditEarnings ?? 0) - ($cashCosts ?? 0);
-
                
-
-
-
         return TransactionLogsNurseResource::collection($transactions)
             ->additional([
                 'status' => true,

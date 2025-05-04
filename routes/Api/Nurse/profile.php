@@ -15,4 +15,6 @@ Route::prefix('nurse')->middleware('auth:nurse')->name('nurse.')->group(function
     Route::post('delete-work-hour/{id}', [ProfileNurseController::class, 'deleteWorkHour']);
 
     Route::get('transactions-logs', [ProfileNurseController::class, 'transactionsLogs']);
+
+    
 });

@@ -199,6 +199,8 @@ class AuthController extends Controller
                 ], $result['status']);
             }
 
+            $this->updateFirebaseTokenWhileLogin($request, $nurse); 
+
             return response()->json([
                 'status' => true,
                 'message' => __('messages.login_successful'),
@@ -216,6 +218,47 @@ class AuthController extends Controller
         }
     }
 
+
+    public function updateFirebaseTokenWhileLogin(Request $request,$nurse)
+    {                
+        $nurse->deviceTokens()->updateOrCreate(
+           ['device_type' => $request->device_type],
+            ['fcm_token' => $request->fcm_token]        
+        );
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.firebase_token_updated'),
+        ]);
+    }
+
+
+    public function updateFcmToken(Request $request)
+    {
+        $request->validate([
+            'fcm_token' => 'required|string',
+            'device_type' => 'required|in:android,ios',
+        ]);
+        $nurse = auth('nurse')->user();
+
+        if (!$nurse) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.unauthenticated'),
+            ], 401);
+        }
+
+        $nurse->deviceTokens()->updateOrCreate(
+            ['device_type' => $request->device_type],
+            ['fcm_token' => $request->fcm_token]
+
+        );
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.firebase_token_updated'),
+        ]);
+    }
 
     public function forgetPassword(Request $request)
     {
@@ -259,7 +302,7 @@ class AuthController extends Controller
 
             return response()->json([
                 'status' => true,
-                'message' => 'تم التحقق من الرمز بنجاح (رمز ثابت).',
+                'message' => 'otp_verified_static',
                 'reset_token' => $resetToken,
             ]);
         }

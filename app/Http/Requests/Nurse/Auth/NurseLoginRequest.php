@@ -24,6 +24,24 @@ class NurseLoginRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'exists:nurses,email'],
             'password' => ['required', 'string', 'min:6'],
+            'fcm_token' => 'required|string',
+            'device_type' => 'required|in:android,ios',
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'email.required' => __('messages.email_required'),
+            'email.email' => __('messages.email_invalid'),
+            'email.exists' => __('messages.email_not_found'),
+            'password.required' => __('messages.password_required'),
+            'password.min' => __('messages.password_min'),
+            'fcm_token.required' => __('messages.fcm_token_required'),
+            'device_type.required' => __('messages.device_type_required'),
+            'device_type.in' => __('messages.device_type_invalid'),
+           
+        ];
+    }
+  
 }

@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\DeviceToken;
+use Illuminate\Support\Facades\Log;
 use Kreait\Firebase\Factory;
 use Kreait\Firebase\Messaging\CloudMessage;
 use Kreait\Firebase\Messaging\Notification;
@@ -27,9 +29,17 @@ class FirebaseService
         $message = CloudMessage::new()
             ->withNotification(Notification::create($title, $body))
             ->withData($data)
-            ->withChangedTarget('token', $fcmToken); // ✅ دي الطريقة الرسمية الحالية
+            ->withChangedTarget('token', $fcmToken); 
     
-        $this->messaging->send($message);
+            try {
+                $this->messaging->send($message);
+            } catch (\Kreait\Firebase\Exception\Messaging\NotFound $e) {
+
+                DeviceToken::where('fcm_token', $fcmToken)->delete();
+                Log::warning('FCM token deleted due to NotFound error', ['token' => $fcmToken]);
+            } catch (\Throwable $e) {
+                Log::error('FCM send failed', ['error' => $e->getMessage()]);
+            }
     }
 
     /**

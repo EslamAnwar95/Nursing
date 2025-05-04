@@ -212,10 +212,9 @@ class AuthController extends Controller
     public function updateFirebaseTokenWhileLogin(Request $request,$patient)
     {                
         $patient->deviceTokens()->updateOrCreate(
-            ['fcm_token' => $request->fcm_token],
-            ['provider_type' => Patient::class],
-            ['device_type' => $request->device_type]
-        );
+            ['device_type' => $request->device_type],
+             ['fcm_token' => $request->fcm_token]        
+         );
 
         return response()->json([
             'status' => true,

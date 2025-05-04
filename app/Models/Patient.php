@@ -90,6 +90,12 @@ class Patient extends Authenticatable implements HasMedia
         return $this->hasMany(Favorite::class);
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(NotificationLog::class, 'notifiable_id')
+            ->where('notifiable_type', Patient::class);
+    }
+
     public function getFullNameAttribute($value)
     {
         return ucwords(strtolower($value));
