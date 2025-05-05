@@ -26,7 +26,7 @@ class TransactionLogsNurseResource extends JsonResource
             'provider_earning' => (int) $this->provider_earning ?? 0,
             'status' => $this->status,
             'paid_at' => $this->paid_at ?? '',
-            'created_at' => $this->created_at->format('Y-m-d H:i:s'),
+            'created_at' => $this->created_at,
         ];
     }
 }
