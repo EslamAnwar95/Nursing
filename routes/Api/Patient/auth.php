@@ -18,6 +18,9 @@ Route::prefix('patient')->name('patient.')->group(function () {
     
     Route::post('update-fcm-token', [AuthController::class, 'updateFcmToken']);
 
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:patient');
+
+    Route::post('delete-account', [AuthController::class, 'deleteAccount'])->middleware('auth:patient');
     // Route::middleware('auth:patient')->group(function () {
     //     Route::get('profile', [AuthController::class, 'profile']);
     // });

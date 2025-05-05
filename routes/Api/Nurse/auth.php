@@ -15,6 +15,12 @@ Route::prefix('nurse')->name('nurse.')->group(function () {
     Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::post('resend-otp', [AuthController::class, 'resendOtp']);
 
+    Route::post('logout', [AuthController::class, 'logout'])->middleware('auth:nurse');
+    Route::post('update-fcm-token', [AuthController::class, 'updateFcmToken']);
+    Route::post('delete-account', [AuthController::class, 'deleteAccount'])->middleware('auth:nurse');
+    Route::post('change-password', [AuthController::class, 'changePassword'])->middleware('auth:nurse');
+
+
     // Route::middleware('auth:nurse')->group(function () {
     //     Route::get('profile', [AuthController::class, 'profile']);
     // });

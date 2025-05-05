@@ -369,4 +369,75 @@ class AuthController extends Controller
             'message' => __('messages.password_reset_successfully'),
         ]);
     }
+
+    public function changePassword(Request $request)
+    {
+        $nurse = auth('nurse')->user();
+
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:6|confirmed',
+        ]);
+        if (!Hash::check($request->current_password, $nurse->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.invalid_credentials'),
+            ], 401);
+        }
+
+        $nurse->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.password_updated'),
+        ]);
+    }
+
+    public function logout(Request $request)
+    {
+        $nurse = auth('nurse')->user();
+        if ($nurse) {
+            $nurse->deviceTokens()->delete();
+        }
+        $accessToken = $nurse->token();
+
+        if ($accessToken) {
+
+            DB::table('oauth_refresh_tokens')
+                ->where('access_token_id', $accessToken->id)
+                ->delete();
+
+            $accessToken->revoke();    
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.logout_successful'),
+        ]);
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $nurse = auth('nurse')->user();
+        
+        foreach ($nurse->tokens as $token) {
+            DB::table('oauth_refresh_tokens')
+                ->where('access_token_id', $token->id)
+                ->delete();
+
+            $token->revoke();
+        }
+
+        $nurse->deviceTokens()->delete();
+
+        $nurse->delete(); 
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.account_deleted_successfully'),
+        ]);
+    }
 }

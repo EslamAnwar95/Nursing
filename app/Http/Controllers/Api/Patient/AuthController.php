@@ -58,7 +58,7 @@ class AuthController extends Controller
             $result = $this->issueAccessToken($patient->email, $request->password, 'patients');
 
             if (! $result['success']) {
-                DB::rollBack();  
+                DB::rollBack();
                 return response()->json([
                     'status' => false,
                     'message' => $result['message'],
@@ -91,13 +91,13 @@ class AuthController extends Controller
             'otp' => 'required|digits:4',
         ]);
 
-        
+
         $otp = $request->otp;
-        
+
         $isMasterOtp = $otp === '1444';
 
         $otpRecord = null;
-    
+
         if (! $isMasterOtp) {
             $otpRecord = Otp::where('email', $request->email)
                 ->where('otp', $otp)
@@ -105,27 +105,27 @@ class AuthController extends Controller
                 ->where('expires_at', '>', now())
                 ->latest()
                 ->first();
-    
+
             if (! $otpRecord) {
                 return response()->json([
                     'status' => false,
                     'message' => __('messages.otp_invalid'),
                 ], 422);
             }
-    
+
             // علمه كمفعّل
             $otpRecord->update(['verified_at' => now()]);
         }
-    
+
         $patient = Patient::where('email', $request->email)->first();
         $patient->update(['is_verified' => true]);
 
-                
+
         return response()->json([
             'status' => true,
             'message' => __('messages.account_verified'),
             'data' => [
-              
+
                 'user' => PatientInfoResource::make($patient),
             ]
         ]);
@@ -188,7 +188,7 @@ class AuthController extends Controller
             }
 
             // Update the patient's device token
-            $this->updateFirebaseTokenWhileLogin($request,$patient);
+            $this->updateFirebaseTokenWhileLogin($request, $patient);
 
             return response()->json([
                 'status' => true,
@@ -209,12 +209,12 @@ class AuthController extends Controller
         }
     }
 
-    public function updateFirebaseTokenWhileLogin(Request $request,$patient)
-    {                
+    public function updateFirebaseTokenWhileLogin(Request $request, $patient)
+    {
         $patient->deviceTokens()->updateOrCreate(
             ['device_type' => $request->device_type],
-             ['fcm_token' => $request->fcm_token]        
-         );
+            ['fcm_token' => $request->fcm_token]
+        );
 
         return response()->json([
             'status' => true,
@@ -238,7 +238,7 @@ class AuthController extends Controller
         }
 
         $patient->deviceTokens()->updateOrCreate(
-            ['provider_id' => $patient->id, 'provider_type' => get_class($patient),'device_type' => $request->device_type],
+            ['provider_id' => $patient->id, 'provider_type' => get_class($patient), 'device_type' => $request->device_type],
             [
                 'fcm_token' => $request->fcm_token,
                 'device_type' => $request->device_type
@@ -284,40 +284,40 @@ class AuthController extends Controller
             'email' => 'required|email|exists:patients,email',
             'otp' => 'required|digits:4',
         ]);
-    
+
         if ($request->otp === '1444') {
             $resetToken = Str::uuid()->toString();
             Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
-    
+
             return response()->json([
                 'status' => true,
                 'message' => __('messages.otp_verified_static'),
                 'reset_token' => $resetToken,
             ]);
         }
-    
+
         $otpRecord = Otp::where('email', $request->email)
             ->where('otp', $request->otp)
             ->whereNull('verified_at')
             ->where('expires_at', '>', now())
             ->latest()
             ->first();
-    
+
         if (!$otpRecord) {
             return response()->json([
                 'status' => false,
                 'message' => __('messages.otp_invalid'),
             ], 422);
         }
-    
+
         // ✅ Mark OTP as verified
         $otpRecord->update([
             'verified_at' => now()
         ]);
-    
+
         $resetToken = Str::uuid()->toString();
         Cache::put("reset_token_{$request->email}", $resetToken, now()->addMinutes(10));
-    
+
         return response()->json([
             'status' => true,
             'message' => __('messages.account_verified'),
@@ -360,5 +360,74 @@ class AuthController extends Controller
     public function profile(Request $request)
     {
         // Return authenticated patient's profile
+    }
+
+    public function changePassword(Request $request)
+    {
+        $patient = auth('patient')->user();
+
+        $request->validate([
+            'current_password' => 'required|string',
+            'new_password' => 'required|string|min:6|confirmed',
+        ]);
+        if (!Hash::check($request->current_password, $patient->password)) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.invalid_credentials'),
+            ], 401);
+        }
+
+        $patient->update([
+            'password' => Hash::make($request->new_password)
+        ]);
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.password_updated'),
+        ]);
+    }
+    public function logout(Request $request)
+    {
+        $patient = auth('patient')->user();
+        if ($patient) {
+            $patient->deviceTokens()->delete();
+        }
+        $accessToken = $patient->token();
+        if ($accessToken) {
+
+            DB::table('oauth_refresh_tokens')
+                ->where('access_token_id', $accessToken->id)
+                ->delete();
+
+            $accessToken->revoke(); // بيلغي التوكن الحالي
+        }
+
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.logout_successful'),
+        ]);
+    }
+
+    public function deleteAccount(Request $request)
+    {
+        $patient = auth('patient')->user();
+        
+        foreach ($patient->tokens as $token) {
+            DB::table('oauth_refresh_tokens')
+                ->where('access_token_id', $token->id)
+                ->delete();
+
+            $token->revoke();
+        }
+
+        $patient->deviceTokens()->delete();
+
+        $patient->delete(); 
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.account_deleted_successfully'),
+        ]);
     }
 }
