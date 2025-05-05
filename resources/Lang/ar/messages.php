@@ -61,4 +61,5 @@ return [
     "notification_not_found" => "لم يتم العثور على الاشعار",
     "notification_read_successfully" => "تم قراءة الاشعار بنجاح",
     "all_notifications_marked_as_read" => "تم تحديث جميع الاشعارات بنجاح",
+    'order_already_accepted_or_rejected' => 'تم قبول الطلب أو رفضه بالفعل',
 ];

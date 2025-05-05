@@ -112,16 +112,19 @@ class OrderNurseController extends Controller
             ], 404);
         }
 
+        $pendingStatus = Status::where('type', 'nurse')->where('order', '1')->value('id');
 
-        if ($order->status_id != 1) {
+        if ($order->status_id != $pendingStatus) {
             return response()->json([
                 'status' => false,
                 'message' => __('messages.order_already_accepted_or_rejected'),
             ], 400);
         }
 
+        $acceptedStatus = Status::where('type', 'nurse')->where('order', '2')->value('id');
+
         try {
-            $order->update(['status_id' => 2]); // Assuming 2 is the ID for "Accepted" status
+            $order->update(['status_id' => $acceptedStatus]); 
 
             return response()->json([
                 'status' => true,
@@ -152,8 +155,20 @@ class OrderNurseController extends Controller
         }
 
 
+        $pendingStatus = Status::where('type', 'nurse')->where('order', '1')->value('id');
+
+        if ($order->status_id != $pendingStatus) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_already_accepted_or_rejected'),
+            ], 400);
+        }
+        
+        // get just the id 
+        $rejectedStatus = Status::where('type', 'nurse')->where('order', '0')->value('id');
+       
         try {
-            $order->update(['status_id' => 3]); // Assuming 3 is the ID for "Rejected" status
+            $order->update(['status_id' => $rejectedStatus]); 
             return response()->json([
                 'status' => true,
                 'message' => __('messages.order_rejected_successfully'),

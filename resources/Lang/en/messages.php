@@ -61,4 +61,6 @@ return [
     'notification_read_successfully' => 'Notification read successfully.',
     'notification_not_found' => 'Notification not found.',
     'all_notifications_marked_as_read' => 'All notifications marked as read.',
+    "invalid_status_for_nurse" => "Invalid status for nurse",
+    'order_status_already_same_as_current' => 'Order status already same as current.',
 ];
