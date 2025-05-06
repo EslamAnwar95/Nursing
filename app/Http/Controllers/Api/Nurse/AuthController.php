@@ -180,7 +180,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => __('messages.invalid_credentials_or_not_nurse'),
-                ], 401);
+                ], 400);
             }
 
             if (!$nurse->is_verified) {

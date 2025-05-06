@@ -167,7 +167,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => false,
                     'message' => __('messages.invalid_credentials_or_not_patient'),
-                ], 401);
+                ], 400);
             }
 
             if (!$patient->is_verified) {
