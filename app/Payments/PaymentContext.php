@@ -1,18 +1,28 @@
 <?php
 
+
+namespace App\Payments;
+
+use App\Interfaces\PaymentDataInterface;
 use App\Interfaces\PaymentStrategyInterface;
+use App\Models\Order;
 
 class PaymentContext
 {
     private $strategy;
 
-    public function __construct(PaymentStrategyInterface $strategy)
+    public function setStrategy(PaymentStrategyInterface $strategy)
     {
         $this->strategy = $strategy;
     }
 
-    public function pay(int $orderId): bool
+    public function process(PaymentDataInterface $data)
     {
-        return $this->strategy->pay($orderId);
+        if (!isset($this->strategy)) {
+            
+            return false;
+        }
+
+        return $this->strategy->pay($data);
     }
 }

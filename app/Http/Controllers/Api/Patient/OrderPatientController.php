@@ -70,6 +70,8 @@ class OrderPatientController extends Controller
                 'status_id' => '1',
                 'scheduled_at' => $request->scheduled_at,
                 'price' => $priceModel->price,
+                "payment_status" => 'pending',
+                'status' => 'pending',
                 'notes' => $request->notes,
             ]);
 

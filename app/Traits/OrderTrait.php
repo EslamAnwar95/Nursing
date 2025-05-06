@@ -6,9 +6,10 @@ use App\Models\Order;
 
 trait OrderTrait
 {
-    public function calculateTotalPrice(Order $order): array
+    public function getOrderPrices($id): array
     {
        
+        $order = Order::find($id);
         $prices = [];
         
         $prices['total_price'] = $order->price;

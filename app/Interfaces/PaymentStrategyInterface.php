@@ -2,7 +2,8 @@
 
 namespace App\Interfaces;
 
+use App\Interfaces\PaymentDataInterface;
 interface PaymentStrategyInterface
 {
-    public function pay(int $orderId): bool;
+    public function pay(PaymentDataInterface $data): string;
 }

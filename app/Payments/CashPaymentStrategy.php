@@ -1,37 +1,53 @@
 <?php
+namespace App\Payments;
 
 use App\Interfaces\PaymentStrategyInterface;
-use App\Models\Order;
+
+use App\Interfaces\PaymentDataInterface;
+use App\Models\OrderTransaction;
+use App\Traits\OrderTrait;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class CashPaymentStrategy implements PaymentStrategyInterface
 {
-    public function pay(int $orderId): bool
-    {
-        // Implement the logic for cash payment here
-        // For example, you might want to update the order status in the database
-        
-        // Assuming the payment is successful, return true
 
-        $order = Order::with('transaction')->find($orderId);
+    public function pay(PaymentDataInterface $data): string
+    {        
+        DB::beginTransaction();
 
-        if (!$order) {
-            return false; // Order not found
+        try {
+            if ($data->getType() === 'order') {
+
+                $order = $data->order;
+
+                $order->update([
+                    'payment_status' => 'paid',
+                    'status' => 'confirmed', 
+                ]);
+
+                $order->transaction->update([
+                    'order_id' => $order->id,
+                    'provider_id' => $order->provider_id,
+                    'provider_type' => $order->provider_type,
+                    'payment_method' => 'cash',
+                    'payment_status' => 'completed',                   
+                    'status' => 'paid',
+                    'paid_at' => Carbon::now(),
+                    'currency' => 'EGP',
+                    'type' => 'order',
+                ]);
+            }
+
+            DB::commit();
+
+            return "Cash payment recorded for {$data->getType()} [ref: {$data->getReferenceId()}] successfully.";
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            throw new \Exception("Cash payment failed: " . $e->getMessage());
         }
 
-
-        $order->transaction()->create([
-            'payment_method' => 'cash',
-            'payment_status' => 'paid',
-            'total_price' => $order->total_price,
-            'vat_value' => $order->vat_value,
-            'app_fee' => $order->app_fee,
-            'provider_earning' => $order->provider_earning,
-            'status' => 'paid', 
-        ]);
-
-        return true;
     }
 
-    
    
 }

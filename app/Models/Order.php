@@ -13,9 +13,12 @@ class Order extends Model
         'patient_id',
         'provider_id',
         'provider_type',
+       
         'status_id',
         'scheduled_at',
         'price',
+        "payment_status", // 'pending', 'paid', 'failed', 'refunded'
+        "status", // 'pending', 'confirmed', 'in_progress', 'completed', 'cancelled'
         'notes',
     ];
 
