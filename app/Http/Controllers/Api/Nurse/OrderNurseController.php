@@ -60,7 +60,7 @@ class OrderNurseController extends Controller
 
         $nurse = auth('nurse')->user();
 
-        $orders = Order::with('patient', 'nurseOrderDetail', 'status', 'provider')
+        $orders = Order::with('patient', 'nurseOrderDetail', 'order_status', 'provider')
             ->where('provider_id', $nurse->id)
             ->where('provider_type', Nurse::class)
             ->orderBy('created_at', 'desc')
