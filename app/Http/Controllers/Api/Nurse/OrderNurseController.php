@@ -78,12 +78,11 @@ class OrderNurseController extends Controller
     public function show($id)
     {
         $nurse = auth('nurse')->user();
-
+       
         $order = Order::with('patient', 'nurseOrderDetail')
             ->where('provider_id', $nurse->id)
             ->where('provider_type', Nurse::class)
             ->find($id);
-
         if (!$order) {
             return response()->json([
                 'status' => false,

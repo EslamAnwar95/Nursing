@@ -43,9 +43,9 @@ class Order extends Model
         return $this->hasOne(NurseOrderDetail::class);
     }
 
-    public function status()
+    public function order_status()
     {
-        return $this->belongsTo(Status::class);
+        return $this->belongsTo(Status::class , 'status_id', 'id');
     }
 
     public function nurseHour()

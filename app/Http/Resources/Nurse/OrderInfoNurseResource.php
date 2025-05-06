@@ -15,10 +15,11 @@ class OrderInfoNurseResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        // dd($this->order_status);
         return [
             'id' => $this->id,
             'patient' => new HomePatientResource($this->patient),
-            'status' => new StatusResource($this->status),
+            'status' => new StatusResource($this->order_status),
             // 'nurse' => new HomeNurseResource($this->provider),
             "price" => $this->price,
             "nurse_work_hours" => new WorkHourseNurseResource($this->nurse_hours),
