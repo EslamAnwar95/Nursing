@@ -13,9 +13,9 @@ class PaymobWebhookController extends Controller
 {
     public function handle(Request $request)
     {
-
-        $service = new PaymobWebhookService($request->all());
-        dd($request->all());
+        $payload = json_decode($request->getContent(), true);
+        $service = new PaymobWebhookService($payload);
+        dd($payload);
         if (! $service->isValid()) {
             Log::info('WEBHOOK DEBUG', [
                 'received_payload' => $request->all(),
