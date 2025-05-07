@@ -78,7 +78,7 @@ class OrderNurseController extends Controller
     public function show($id)
     {
         $nurse = auth('nurse')->user();
-       
+
         $order = Order::with('patient', 'nurseOrderDetail')
             ->where('provider_id', $nurse->id)
             ->where('provider_type', Nurse::class)
@@ -123,7 +123,10 @@ class OrderNurseController extends Controller
         $acceptedStatus = Status::where('type', 'nurse')->where('order', '2')->value('id');
 
         try {
-            $order->update(['status_id' => $acceptedStatus]); 
+            $order->update([
+                'status_id' => $acceptedStatus,
+                "status" => 'confirmed',
+            ]);
 
             return response()->json([
                 'status' => true,
@@ -162,12 +165,15 @@ class OrderNurseController extends Controller
                 'message' => __('messages.order_already_accepted_or_rejected'),
             ], 400);
         }
-        
+
         // get just the id 
         $rejectedStatus = Status::where('type', 'nurse')->where('order', '0')->value('id');
-       
+
         try {
-            $order->update(['status_id' => $rejectedStatus]); 
+            $order->update([
+                'status_id' => $rejectedStatus,
+                'status' => 'cancelled'
+            ]);
             return response()->json([
                 'status' => true,
                 'message' => __('messages.order_rejected_successfully'),
@@ -211,7 +217,7 @@ class OrderNurseController extends Controller
                     'message' => __('messages.order_not_found'),
                 ], 404);
             }
-           
+
             // check if the status id not the same as the current order status id
             if ($order->status_id == $request->status_id) {
                 return response()->json([
@@ -228,7 +234,7 @@ class OrderNurseController extends Controller
 
             $patient = $order->patient;
 
-            
+
 
             if ($patient) {
 
@@ -241,20 +247,19 @@ class OrderNurseController extends Controller
                     ], 404);
                 }
 
-              
-             
+
+
                 $dispatcher->sendToUser(
                     $patient,
                     __('Order Status Update'),
                     __('Hello, your order status has been updated to: ') . $order->status->name_en,
-                    
+
                     [
                         'order_id' => $order->id,
                         'type' => 'order_status',
-                        
+
                     ]
                 );
-                
             }
 
             return response()->json([

@@ -19,9 +19,9 @@ class ReservationController extends Controller
             if($request->has('status')) {
                 $reservations->where('status', $request->status);
             }
-            if($request->has('scheduled_at')) {
-                $reservations->whereDate('scheduled_at', $request->scheduled_at);
-            }
+            // if($request->has('scheduled_at')) {
+            //     $reservations->whereDate('scheduled_at', $request->scheduled_at);
+            // }
           $reservations  ->orderBy('created_at', 'desc');
           $reservations = $reservations  ->paginate(10);
 

@@ -20,8 +20,11 @@ class ReservationResource extends JsonResource
             "order_status" => optional($this->order_status)->name,
             "status" => $this->status,
             "provider_name" => $this->provider->full_name,
+            "provider_id" => $this->provider_id,
+            
             "type" => class_basename($this->provider),
             "address" => $this->provider->address,
+            "provider_image" => $this->provider->profile_image_url,
 
         ];
     }

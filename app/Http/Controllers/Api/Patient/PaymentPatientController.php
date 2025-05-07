@@ -35,6 +35,15 @@ class PaymentPatientController extends Controller
 
         $paymentData = $this->resolvePaymentData($request);
 
+        if($paymentData->getType() === 'order') {
+            $order = Order::find($request->order_id);
+            if ($order->order_status !== '5') {
+                return response()->json([
+                    'status' => false,
+                    'message' => __('messages.order_not_completed'),
+                ], 422);
+            }
+        }
 
         if (! $paymentData instanceof PaymentDataInterface) {
             return response()->json([

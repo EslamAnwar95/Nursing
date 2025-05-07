@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api\Patient;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Patient\FavoriteResource;
 use App\Models\Favorite;
 use App\Models\Nurse;
 use Illuminate\Http\Request;
@@ -74,8 +75,12 @@ class FavoriteController extends Controller
     {
         $patient = auth('patient')->user();
     
-        $favorites = $patient->favorites()->with('provider')->get();
-    
+        $favorites = Favorite::where('patient_id', $patient->id)->with('provider')->paginate(10);
+        
+        return FavoriteResource::collection($favorites)->additional([
+            'status' => true,
+            'message' => __('messages.favorites_list'),
+        ]);
         return response()->json([
             'status' => true,
             'data' => $favorites->map(function ($fav) {
@@ -84,7 +89,7 @@ class FavoriteController extends Controller
                     'type' => class_basename($fav->provider_type),
                     'name' => $fav->provider->full_name ?? null,
                     'phone' => $fav->provider->phone_number ?? null,
-                    'image' => $fav->provider->image ?? null,
+                    'image' => $fav->provider->profile_image_url ?? null,
                 ];
             }),
         ]);
