@@ -33,7 +33,6 @@ class PaymobWebhookController extends Controller
         $success = $service->getSuccessStatus();
 
         
-        dd($orderId, $amount, $success);
         $order = Order::where('id', $orderId)->first();
 
         if (!$order) {
