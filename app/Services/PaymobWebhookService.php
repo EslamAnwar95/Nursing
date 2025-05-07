@@ -15,12 +15,12 @@ class PaymobWebhookService
 
     public function isValid(): bool
     {
-        if (!isset($this->payload['hmac'])) {
+      
+        $receivedHmac = request()->header('hmac');
+
+        if (!$receivedHmac) {
             return false;
         }
-    
-
-        $receivedHmac = $this->payload['hmac'];
 
         $orderedKeys = [
             'amount_cents',
