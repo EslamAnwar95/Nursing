@@ -15,8 +15,11 @@ class PaymobWebhookController extends Controller
     {
 
         $service = new PaymobWebhookService($request->all());
-
+        dd($request->all());
         if (! $service->isValid()) {
+            Log::info('WEBHOOK DEBUG', [
+                'received_payload' => $request->all(),
+            ]);
             return response()->json(['error' => 'Invalid HMAC'], 401);
         }
 
