@@ -9,6 +9,7 @@ use App\Models\Order;
 use App\Payments\CashPaymentStrategy;
 use App\Payments\OrderPaymentData;
 use App\Payments\PaymentContext;
+use App\Payments\PaymobPaymentStrategy;
 use App\Payments\SettlementPaymentData;
 use Illuminate\Http\Request;
 
@@ -27,7 +28,7 @@ class PaymentPatientController extends Controller
     {
         $request->validate([
             'type' => 'required|in:order,settlement',
-            'payment_method' => 'required|in:cash,credit_card',
+            'payment_method' => 'required|in:cash,credit',
             'order_id' => 'required_if:type,order|exists:orders,id',
             'amount' => 'required_if:type,settlement|numeric|min:0.01',
         ]);
@@ -37,7 +38,9 @@ class PaymentPatientController extends Controller
 
         if($paymentData->getType() === 'order') {
             $order = Order::find($request->order_id);
-            if ($order->order_status !== '5') {
+         
+
+            if ($order->order_status->id !== 5) {
                 return response()->json([
                     'status' => false,
                     'message' => __('messages.order_not_completed'),
@@ -55,7 +58,7 @@ class PaymentPatientController extends Controller
 
         $strategy = match ($request->payment_method) {
             'cash' => new CashPaymentStrategy(),
-            // 'credit_card' => new CreditCardPaymentStrategy(),
+            'credit' => new PaymobPaymentStrategy(),
             default => null
         };
 
@@ -65,12 +68,12 @@ class PaymentPatientController extends Controller
             $result = $this->paymentContext->process($paymentData);
 
             return response()->json([
-                'status' => true,
-                'message' => __('messages.payment_successful'),
-                'data' => [
-                    'details' => $result,
-                ],
-            ]);
+                'status' => $result->success,
+                'message' => $result->message,
+                'data' => $result->data,
+            ], $result->status);
+
+            
         } catch (\Throwable $e) {
             return response()->json([
                 'status' => false,

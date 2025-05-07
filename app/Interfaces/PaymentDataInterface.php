@@ -24,4 +24,10 @@ interface PaymentDataInterface
     public function getType(): string;
 
 
+    /**
+     * Get the billing data for this payment.
+     * This should include sender and receiver information.
+     */
+    public function getBillingData(): array;
+
 }

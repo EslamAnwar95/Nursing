@@ -26,4 +26,12 @@ class SettlementPaymentData implements PaymentDataInterface
     {
         return 'settlement';
     }
+
+    public function getBillingData(): array
+    {
+        return [
+            'provider_id' => $this->providerId,
+            'provider_type' => $this->providerType,
+        ];
+    }
 }

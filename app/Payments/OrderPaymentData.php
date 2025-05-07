@@ -23,4 +23,18 @@ class OrderPaymentData implements PaymentDataInterface
     {
         return 'order';
     }
+
+    public function getBillingData(): array
+    {
+        return [
+            'sender_name' => $this->order->patient->full_name,
+            'email' => $this->order->patient->email,
+            'phone' => $this->order->patient->phone_number,
+            'address' => $this->order->patient->address,
+            // "receiver_name" => $this->order->provider->full_name,
+            // "receiver_phone" => $this->order->provider->phone_number,
+            // "receiver_address" => $this->order->provider->address,
+
+        ];
+    }
 }

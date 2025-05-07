@@ -11,10 +11,10 @@ use Laravel\Passport\Http\Controllers\AccessTokenController;
 // })->middleware('auth:sanctum');
 
 
-Route::group(['middleware' => ['api','set.locale']], function () {
+Route::group(['middleware' => ['api', 'set.locale']], function () {
 
     Route::post('/oauth/token', [AccessTokenController::class, 'issueToken'])
-        ->middleware(['throttle']); 
+        ->middleware(['throttle']);
 
     // 🟡 Routes without verification (just login/register)
     include __DIR__ . "/Api/Nurse/auth.php";
@@ -41,9 +41,22 @@ Route::group(['middleware' => ['api','set.locale']], function () {
             'هذا إشعار تجريبي من Laravel + Firebase',
             ['click_action' => 'FLUTTER_NOTIFICATION_CLICK']
         );
-    
+
         return 'Notification sent!';
     });
+
+
+
+    Route::get('/paymob/redirect', function (\Illuminate\Http\Request $request) {
+        $token = $request->query('token');
+
+        if (! $token) {
+            abort(400, 'Missing payment token.');
+        }
+
+        $iframeId = config('services.paymob.iframe_id');
+        $iframeUrl = "https://accept.paymob.com/api/acceptance/iframes/{$iframeId}?payment_token={$token}";
+
+        return redirect()->away($iframeUrl);
+    })->name('paymob.redirect');
 });
-
-

@@ -8,11 +8,12 @@ use App\Models\OrderTransaction;
 use App\Traits\OrderTrait;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use App\Payments\PaymentResult;
 
 class CashPaymentStrategy implements PaymentStrategyInterface
 {
 
-    public function pay(PaymentDataInterface $data): string
+    public function pay(PaymentDataInterface $data): PaymentResult
     {        
         DB::beginTransaction();
 
@@ -41,7 +42,11 @@ class CashPaymentStrategy implements PaymentStrategyInterface
 
             DB::commit();
 
-            return "Cash payment recorded for {$data->getType()} [ref: {$data->getReferenceId()}] successfully.";
+            return PaymentResult::success("Cash payment recorded for {$data->getType()}", [
+                'reference_id' => $data->getReferenceId(),
+            ]);  
+        
+        
         } catch (\Throwable $e) {
             DB::rollBack();
             throw new \Exception("Cash payment failed: " . $e->getMessage());
