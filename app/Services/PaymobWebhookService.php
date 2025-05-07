@@ -18,6 +18,7 @@ class PaymobWebhookService
         if (!isset($this->payload['hmac'])) {
             return false;
         }
+    
 
         $receivedHmac = $this->payload['hmac'];
 
