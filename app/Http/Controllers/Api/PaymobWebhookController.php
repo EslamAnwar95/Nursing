@@ -14,6 +14,10 @@ class PaymobWebhookController extends Controller
     public function handle(Request $request)
     {
 
+        Log::info('RAW BODY', ['body' => $request->getContent()]);
+        Log::info('ALL()', ['data' => $request->all()]);
+        Log::info('JSON()', ['json' => $request->json()->all()]);
+        Log::info('Headers', ['headers' => $request->headers->all()]);
         $service = new PaymobWebhookService($request->all());
         
         if (! $service->isValid()) {
