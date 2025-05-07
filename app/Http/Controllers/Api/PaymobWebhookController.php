@@ -19,7 +19,7 @@ class PaymobWebhookController extends Controller
         Log::info('JSON()', ['json' => $request->json()->all()]);
         Log::info('Headers', ['headers' => $request->headers->all()]);
         $service = new PaymobWebhookService($request->all());
-        dd($service);
+   
         if (! $service->isValid()) {
             Log::info('WEBHOOK DEBUG', [
                 'received_payload' => $request->all(),
@@ -32,7 +32,7 @@ class PaymobWebhookController extends Controller
         $amount  = $service->getAmount();
         $success = $service->getSuccessStatus();
 
-
+        
         dd($orderId, $amount, $success);
         $order = Order::where('id', $orderId)->first();
 
