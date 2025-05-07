@@ -14,6 +14,7 @@ class PaymobWebhookController extends Controller
     public function handle(Request $request)
     {
         $payload = json_decode($request->getContent(), true);
+        dd($payload);
         $service = new PaymobWebhookService($payload);
         dd($payload);
         if (! $service->isValid()) {
