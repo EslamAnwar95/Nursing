@@ -54,7 +54,7 @@ class PaymobPaymentStrategy implements PaymentStrategyInterface
                 'currency' => 'EGP',
                 'integration_id' => config('services.paymob.integration_id'),
                 'billing_data' => [
-                    "tset"    => $orderData['sender_name'] ?? 'Guest',
+                    "first_name"    => $orderData['sender_name'] ?? 'Guest',
                     "last_name"     => $orderData['sender_name'] ?? 'User',
                     "email"         => $orderData['email'] ?? 'guest@example.com',
                     "phone_number"  => $orderData['phone'] ?? '+201000000000',
