@@ -17,7 +17,7 @@ class PaymobWebhookService
     {
       
         $receivedHmac = request()->header('hmac');
-        dd($receivedHmac);
+        
         if (!$receivedHmac) {
             return false;
         }
