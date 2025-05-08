@@ -23,6 +23,7 @@ class OrderTransaction extends Model
         'provider_earning',
         'status',
         'paid_at',
+        "payment_id",
     ];
 
 

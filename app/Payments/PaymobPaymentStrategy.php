@@ -4,6 +4,7 @@ namespace App\Payments;
 
 use App\Interfaces\PaymentDataInterface;
 use App\Interfaces\PaymentStrategyInterface;
+use App\Models\OrderTransaction;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -46,6 +47,13 @@ class PaymobPaymentStrategy implements PaymentStrategyInterface
 
 
             $orderId = $orderResponse['id'];
+
+            OrderTransaction::where('order_id', $data->getReferenceId())
+                ->update([
+                    'payment_method' => 'paymob',
+                    'payment_id' => $orderId,
+                    'status' => 'pending',
+                ]);
             $paymentKeyResponse = Http::post('https://accept.paymob.com/api/acceptance/payment_keys', [
                 'auth_token' => $token,
                 'amount_cents' => $data->getAmount() * 100,
