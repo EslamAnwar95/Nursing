@@ -8,14 +8,7 @@ class PaymobWebhookService
 {
     protected array $payload;
 
-/*************  ✨ Windsurf Command ⭐  *************/
-    /**
-     * Construct a new PaymobWebhookService instance.
-     *
-     * @param array $payload
-     *   The payload of the webhook request.
-     */
-/*******  757203f3-e752-4268-ae24-189411a37d55  *******/
+
     public function __construct(array $payload)
     {
         $this->payload = $payload;
@@ -26,9 +19,9 @@ class PaymobWebhookService
         
         $receivedHmac = $this->payload['hmac'] ?? null; // Get the HMAC from the payload
 
-        // if (! $receivedHmac) {
-        //     return false;
-        // }
+        if (! $receivedHmac) {
+            return false;
+        }
         $orderedKeys = [
             'amount_cents',
             'created_at',
@@ -58,7 +51,7 @@ class PaymobWebhookService
         }
 
         $calculatedHmac = hash_hmac('sha512', $concatenated, Config::get('services.paymob.hmac_secret'));
-        dd($calculatedHmac,Config::get('services.paymob.hmac_secret'), $receivedHmac, hash_equals($calculatedHmac, $receivedHmac));
+        // dd($calculatedHmac,Config::get('services.paymob.hmac_secret'), $receivedHmac, hash_equals($calculatedHmac, $receivedHmac));
 
 
         return hash_equals($calculatedHmac, $receivedHmac);
