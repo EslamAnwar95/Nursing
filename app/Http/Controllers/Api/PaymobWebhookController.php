@@ -18,19 +18,25 @@ class PaymobWebhookController extends Controller
         Log::info('ALL()', ['data' => $request->all()]);
         Log::info('JSON()', ['json' => $request->json()->all()]);
         Log::info('Headers', ['headers' => $request->headers->all()]);
-        $service = new PaymobWebhookService($request->all());
+        // $service = new PaymobWebhookService($request->all());
    
-        if (! $service->isValid()) {
-            Log::info('WEBHOOK DEBUG', [
-                'received_payload' => $request->all(),
-            ]);
-            return response()->json(['error' => 'Invalid HMAC'], 401);
-        }
+        // if (! $service->isValid()) {
+        //     Log::info('WEBHOOK DEBUG', [
+        //         'received_payload' => $request->all(),
+        //     ]);
+        //     return response()->json(['error' => 'Invalid HMAC'], 401);
+        // }
 
+        $payload = json_decode($request->getContent(), true);
+        dd($payload);
+        if (!($payload['success'] ?? false)) {
+            Log::warning('Paymob: failed payment webhook', $payload);
+            return response()->json(['status' => false], 200); // no retry
+        }
         // ✅ Valid webhook
-        $orderId = $service->getOrderId();
-        $amount  = $service->getAmount();
-        $success = $service->getSuccessStatus();
+        // $orderId = $service->getOrderId();
+        // $amount  = $service->getAmount();
+        // $success = $service->getSuccessStatus();
 
         
         $order = Order::where('id', $orderId)->first();
