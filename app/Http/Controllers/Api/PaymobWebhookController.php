@@ -14,20 +14,12 @@ class PaymobWebhookController extends Controller
     public function handle(Request $request)
     {
         // Log the raw request body and headers
-        Log::info('RAW BODY', ['body' => $request->getContent()]);
-        Log::info('ALL()', ['data' => $request->all()]);
-        Log::info('JSON()', ['json' => $request->json()->all()]);
-        Log::info('Headers', ['headers' => $request->headers->all()]);
-        // $service = new PaymobWebhookService($request->all());
-   
-        // if (! $service->isValid()) {
-        //     Log::info('WEBHOOK DEBUG', [
-        //         'received_payload' => $request->all(),
-        //     ]);
-        //     return response()->json(['error' => 'Invalid HMAC'], 401);
-        // }
 
-        $payload = json_decode($request->getContent(), true);
+        $service = new PaymobWebhookService($request->all());
+
+
+
+        $payload = $request->all();
         dd($payload, $request->all(), $request->getContent());
         if (!($payload['success'] ?? false)) {
             Log::warning('Paymob: failed payment webhook', $payload);
@@ -38,7 +30,28 @@ class PaymobWebhookController extends Controller
         // $amount  = $service->getAmount();
         // $success = $service->getSuccessStatus();
 
-        
+        $orderId = $payload['order'] ?? null;
+
+        if (!$orderId) {
+            Log::warning('Paymob: missing order ID in webhook', $payload);
+            return response()->json(['status' => false], 422);
+        }
+
+
+        $order = Order::where('paymob_order_id', $orderId)->first();
+
+        if (!$order) {
+            Log::error("Paymob: Order not found for ID {$orderId}");
+            return response()->json(['status' => false], 404);
+        }
+
+
+        $order->update([
+            'payment_status' => 'paid',
+            'paid_at' => now(),
+        ]);
+
+        return response()->json(['status' => true], 200);
         $order = Order::where('id', $orderId)->first();
 
         if (!$order) {
@@ -52,10 +65,10 @@ class PaymobWebhookController extends Controller
                 'status' => 'paid',
                 'paid_at' => Carbon::now(),
             ]);
-    
+
             $order()->update([
                 'payment_status' => 'paid',
-                'status' => 'confirmed', 
+                'status' => 'confirmed',
             ]);
         } else {
             $order->transaction()->update([
@@ -65,13 +78,12 @@ class PaymobWebhookController extends Controller
 
             $order->update([
                 'payment_status' => 'failed',
-                'status' => 'cancelled', 
+                'status' => 'cancelled',
             ]);
         }
-        
+
         // هنا تبدأ تحديث حالة الطلب بناءً على $payload['order']['merchant_order_id'] أو ID تاني
 
         return response()->json(['message' => 'Webhook verified'], 200);
-     
     }
 }

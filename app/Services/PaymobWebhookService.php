@@ -15,11 +15,11 @@ class PaymobWebhookService
 
     public function isValid(): bool
     {
-      
-        $receivedHmac = request()->header('hmac');
+        
+        $receivedHmac = $payload['hmac'] ?? null;
         
         if (!$receivedHmac) {
-            return false;
+            return false; // No HMAC provided
         }
 
         $orderedKeys = [
@@ -52,7 +52,7 @@ class PaymobWebhookService
 
         $calculatedHmac = hash_hmac('sha512', $concatenated, Config::get('services.paymob.hmac_secret'));
     dd($calculatedHmac,Config::get('services.paymob.hmac_secret'), $receivedHmac, hash_equals($calculatedHmac, $receivedHmac));
-        return hash_equals($calculatedHmac, $receivedHmac, $concatenated);
+        return hash_equals($calculatedHmac, $receivedHmac);
     }
 
     public function getOrderId(): ?string
