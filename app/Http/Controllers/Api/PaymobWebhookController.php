@@ -28,7 +28,7 @@ class PaymobWebhookController extends Controller
         // }
 
         $payload = json_decode($request->getContent(), true);
-        dd($payload);
+        dd($payload, $request->all(), $request->getContent());
         if (!($payload['success'] ?? false)) {
             Log::warning('Paymob: failed payment webhook', $payload);
             return response()->json(['status' => false], 200); // no retry
