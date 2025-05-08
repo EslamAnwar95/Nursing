@@ -51,7 +51,9 @@ class PaymobWebhookService
         }
 
         $calculatedHmac = hash_hmac('sha512', $concatenated, Config::get('services.paymob.hmac_secret'));
-    dd($calculatedHmac,Config::get('services.paymob.hmac_secret'), $receivedHmac, hash_equals($calculatedHmac, $receivedHmac));
+        // dd($calculatedHmac,Config::get('services.paymob.hmac_secret'), $receivedHmac, hash_equals($calculatedHmac, $receivedHmac));
+
+
         return hash_equals($calculatedHmac, $receivedHmac);
     }
 
