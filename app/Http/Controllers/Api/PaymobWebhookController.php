@@ -66,7 +66,7 @@ class PaymobWebhookController extends Controller
                 'paid_at' => Carbon::now(),
             ]);
 
-            $order()->update([
+            $order->update([
                 'payment_status' => 'paid',
                 'status' => 'confirmed',
                 'paymob_order_id' => $orderId,
@@ -80,6 +80,7 @@ class PaymobWebhookController extends Controller
             ]);
             DB::commit();
         } else {
+            DB::beginTransaction();
             $order->transaction()->update([
                 'payment_status' => 'failed',
                 'status' => 'cancelled',
@@ -91,6 +92,14 @@ class PaymobWebhookController extends Controller
                 'status' => 'cancelled',
                 'paymob_order_id' => $orderId,
             ]);
+
+            PaymentWebhookLog::create([
+                'source' => 'paymob',
+                'status' => 'failed',
+                'raw_payload' => json_encode($request->all()),
+                'notes' => "Order #{$order->id} updated on DB  but failed",
+            ]);
+            DB::commit();
         }
         // هنا تبدأ تحديث حالة الطلب بناءً على $payload['order']['merchant_order_id'] أو ID تاني
 
