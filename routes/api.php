@@ -61,6 +61,6 @@ Route::group(['middleware' => ['api', 'set.locale']], function () {
         return redirect()->away($iframeUrl);
     })->name('paymob.redirect');
 
-    Route::post('/paymob/webhook', [PaymobWebhookController::class, 'handle'])
+    Route::any('/paymob/webhook', [PaymobWebhookController::class, 'handle'])
     ->name('paymob.webhook');
 });

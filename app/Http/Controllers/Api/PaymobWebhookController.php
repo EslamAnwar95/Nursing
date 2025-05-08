@@ -13,7 +13,7 @@ class PaymobWebhookController extends Controller
 {
     public function handle(Request $request)
     {
-
+        // Log the raw request body and headers
         Log::info('RAW BODY', ['body' => $request->getContent()]);
         Log::info('ALL()', ['data' => $request->all()]);
         Log::info('JSON()', ['json' => $request->json()->all()]);
