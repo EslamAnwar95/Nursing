@@ -81,17 +81,17 @@ class FavoriteController extends Controller
             'status' => true,
             'message' => __('messages.favorites_list'),
         ]);
-        return response()->json([
-            'status' => true,
-            'data' => $favorites->map(function ($fav) {
-                return [
-                    'id' => $fav->provider->id,
-                    'type' => class_basename($fav->provider_type),
-                    'name' => $fav->provider->full_name ?? null,
-                    'phone' => $fav->provider->phone_number ?? null,
-                    'image' => $fav->provider->profile_image_url ?? null,
-                ];
-            }),
-        ]);
+        // return response()->json([
+        //     'status' => true,
+        //     'data' => $favorites->map(function ($fav) {
+        //         return [
+        //             'id' => $fav->provider->id,
+        //             'type' => class_basename($fav->provider_type),
+        //             'name' => $fav->provider->full_name ?? null,
+        //             'phone' => $fav->provider->phone_number ?? null,
+        //             'image' => $fav->provider->profile_image_url ?? null,
+        //         ];
+        //     }),
+        // ]);
     }
 }

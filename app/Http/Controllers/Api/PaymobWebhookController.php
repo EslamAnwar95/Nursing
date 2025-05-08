@@ -15,11 +15,7 @@ class PaymobWebhookController extends Controller
 {
     public function handle(Request $request)
     {
-
-        // Log::info('RAW BODY', ['body' => $request->getContent()]);
-        // Log::info('ALL()', ['data' => $request->all()]);
-        // Log::info('JSON()', ['json' => $request->json()->all()]);
-        // Log::info('Headers', ['headers' => $request->headers->all()]);
+              
         $service = new PaymobWebhookService($request->all());
 
         if (! $service->isValid()) {
@@ -101,7 +97,6 @@ class PaymobWebhookController extends Controller
             ]);
             DB::commit();
         }
-        // هنا تبدأ تحديث حالة الطلب بناءً على $payload['order']['merchant_order_id'] أو ID تاني
 
         return response()->json(['message' => 'Webhook verified'], 200);
     }

@@ -62,5 +62,6 @@ return [
     "notification_read_successfully" => "تم قراءة الاشعار بنجاح",
     "all_notifications_marked_as_read" => "تم تحديث جميع الاشعارات بنجاح",
     'order_already_accepted_or_rejected' => 'تم قبول الطلب أو رفضه بالفعل',
+    "not_your_order" => "هذا ليس طلبك",
     // "reservations_list" => 
 ];

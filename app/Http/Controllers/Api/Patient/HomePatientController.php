@@ -3,9 +3,13 @@
 namespace App\Http\Controllers\Api\Patient;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Patient\HomePatientMostCommonResource;
 use App\Http\Resources\Patient\HomePatientResource;
+use App\Models\Favorite;
 use App\Models\Nurse;
+use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class HomePatientController extends Controller
 {
@@ -85,5 +89,99 @@ class HomePatientController extends Controller
                 return [];
                 throw new \InvalidArgumentException("Unsupported type: {$type}");
         }
+    }
+
+
+    public function getMostCommonFavoriteProviders(Request $request)
+    {
+        // $patient = $request->user();
+
+        $mostCommonFavorite = Favorite::select('provider_id','provider_type',DB::raw('count(*) as total'))
+            // ->where('provider_type', Nurse::class)
+            ->groupBy('provider_id','provider_type')
+            ->orderBy('total', 'desc')
+            ->with(['provider'])
+            ->limit(5)
+            ->get();
+
+            // dd($mostCommonFavorite);
+        if ($mostCommonFavorite->isEmpty()) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.no_favorites_found'),
+                'data' => [],
+            ]);
+        }
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.favorites_loaded_successfully'),
+            'data' => HomePatientMostCommonResource::collection($mostCommonFavorite),
+        ]);
+    }
+
+    public function cancelReservation(Request $request)
+    {
+        $patient = auth('patient')->user();
+
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+        ]);
+
+        $order = Order::find($request->order_id);
+
+        if ($order->patient_id != $patient->id) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.not_your_order'),
+            ], 422);
+        }
+        if ($order->status_id != 1) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_not_pending'),
+            ], 422);
+        }
+
+        $order->update(['status_id' => 6]);
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.order_cancelled_successfully'),
+        ]);
+    }
+
+
+    public function rescheduleReservation(Request $request)
+    {
+        $patient = auth('patient')->user();
+
+        $request->validate([
+            'order_id' => 'required|exists:orders,id',
+            "scheduled_at" => "required|date|after:today",
+        ]);
+
+        $order = Order::find($request->order_id);
+
+        if ($order->patient_id != $patient->id) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.not_your_order'),
+            ], 422);
+        }
+
+        if ($order->status_id == 6) {
+            return response()->json([
+                'status' => false,
+                'message' => __('messages.order_already_cancelled'),
+            ], 422);
+        }
+
+        $order->update(['status_id' => 1, 'scheduled_at' => $request->scheduled_at]);
+
+        return response()->json([
+            'status' => true,
+            'message' => __('messages.order_rescheduled_successfully'),
+        ]);
     }
 }
