@@ -8,6 +8,14 @@ class PaymobWebhookService
 {
     protected array $payload;
 
+/*************  ✨ Windsurf Command ⭐  *************/
+    /**
+     * Construct a new PaymobWebhookService instance.
+     *
+     * @param array $payload
+     *   The payload of the webhook request.
+     */
+/*******  757203f3-e752-4268-ae24-189411a37d55  *******/
     public function __construct(array $payload)
     {
         $this->payload = $payload;
@@ -16,12 +24,11 @@ class PaymobWebhookService
     public function isValid(): bool
     {
         
-        $receivedHmac = $payload['hmac'] ?? null;
-        
-        if (!$receivedHmac) {
-            return false; // No HMAC provided
-        }
+        $receivedHmac = $this->payload['hmac'] ?? null; // Get the HMAC from the payload
 
+        // if (! $receivedHmac) {
+        //     return false;
+        // }
         $orderedKeys = [
             'amount_cents',
             'created_at',
