@@ -20,6 +20,7 @@ class Order extends Model
         "payment_status", // 'pending', 'paid', 'failed', 'refunded'
         "status", // 'pending', 'confirmed', 'in_progress', 'completed', 'cancelled'
         'notes',
+        'paymob_order_id',
     ];
 
 
