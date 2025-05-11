@@ -16,8 +16,8 @@ class HomePatientMostCommonResource extends JsonResource
     {
         return [
             "total_favor" => $this->total,
-            "provider_type" => class_basename($this->provider),
-            "provider_id" => $this->provider_id,
+            "type" => class_basename($this->provider),
+            "id" => $this->provider_id,
             "full_name" => $this->provider->full_name,
             "address" => $this->provider->address ?? '',
             "image" => $this->provider->profile_image_url,
