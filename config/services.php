@@ -40,6 +40,8 @@ return [
     'integration_id' => env('PAYMOB_INTEGRATION_ID'),
     'iframe_id' => env('PAYMOB_IFRAME_ID'),
     'hmac_secret' => env('PAYMOB_HMAC_SECRET'),
+    "mobile_wallet_integration_id" => env('PAYMOB_MOBILE_WALLET_INTEGRATION_ID'),
     ],
+
 
 ];

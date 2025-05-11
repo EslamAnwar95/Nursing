@@ -12,6 +12,7 @@ use App\Payments\PaymentContext;
 use App\Payments\PaymobPaymentStrategy;
 use App\Payments\SettlementPaymentData;
 use Illuminate\Http\Request;
+use App\Payments\WalletPaymentStrategy;
 
 class PaymentPatientController extends Controller
 {
@@ -28,7 +29,7 @@ class PaymentPatientController extends Controller
     {
         $request->validate([
             'type' => 'required|in:order,settlement',
-            'payment_method' => 'required|in:cash,credit',
+            'payment_method' => 'required|in:cash,credit,wallet',
             'order_id' => 'required_if:type,order|exists:orders,id',
             'amount' => 'required_if:type,settlement|numeric|min:0.01',
         ]);
@@ -59,6 +60,7 @@ class PaymentPatientController extends Controller
         $strategy = match ($request->payment_method) {
             'cash' => new CashPaymentStrategy(),
             'credit' => new PaymobPaymentStrategy(),
+            'wallet' => new WalletPaymentStrategy(),
             default => null
         };
 

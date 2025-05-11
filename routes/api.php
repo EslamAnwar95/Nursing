@@ -31,6 +31,7 @@ Route::group(['middleware' => ['api', 'set.locale']], function () {
         include __DIR__ . "/Api/Patient/favorite.php";
         include __DIR__ . "/Api/Patient/pay.php";
         include __DIR__ . "/Api/Patient/reservation.php";
+        include __DIR__ . "/Api/Nurse/notifications.php";
 
         // include __DIR__ . "/Api/Nurse/home.php";
     });
