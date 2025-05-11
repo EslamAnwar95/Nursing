@@ -103,6 +103,12 @@ class Nurse extends  Authenticatable implements HasMedia
         return ucwords(strtolower($value));
     }
 
+    public function notifications()
+    {
+        return $this->hasMany(NotificationLog::class, 'notifiable_id')
+            ->where('notifiable_type', Nurse::class);
+    }
+
     public function getAgeAttribute(): ?int
     {
         if (!$this->date_of_birth) {

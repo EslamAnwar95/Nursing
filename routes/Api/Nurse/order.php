@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('patient')->middleware('auth:patient')->group(function () {
     Route::apiResource('orders', OrderPatientController::class)->only(['index', 'store', 'show']);
 
-    Route::post('orders/{order}/update', [OrderNurseController::class, 'update'])->name('orders.update');
+    // Route::post('orders/{order}/update', [OrderNurseController::class, 'update'])->name('orders.update');
  // route to get orders statuses
 
 });
