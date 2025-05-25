@@ -14,6 +14,7 @@ use App\Models\Status;
 use App\Traits\OrderTrait;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 
 class OrderPatientController extends Controller
 {
@@ -75,6 +76,13 @@ class OrderPatientController extends Controller
                 'notes' => $request->notes,
             ]);
 
+             // 📤 ابعت Socket Trigger
+            Http::post('http://localhost:3000/order-created', [
+                'order_id' => $order->id,
+                'patient_id' => $order->patient_id,
+                'provider_id' => $order->provider_id,
+                'provider_type' => $order->provider_type,
+            ]);
 
             NurseOrderDetail::create([
                 'order_id' => $order->id,

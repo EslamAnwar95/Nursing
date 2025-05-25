@@ -5,7 +5,7 @@ use App\Http\Controllers\Api\Patient\AuthController;
 
 Route::prefix('patient')->name('patient.')->group(function () {
  
-    Route::post('register', [AuthController::class, 'register']);
+    Route::get('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
     Route::post('forget-password', [AuthController::class, 'forgetPassword']);
 

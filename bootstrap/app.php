@@ -14,14 +14,14 @@ $app = Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // هنا تقدر تضيف Middleware global لو حبيت
+
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+
     })
     ->create();
 
-// ✅ تسجيل alias للميدلوير custom
+
 $app->router->aliasMiddleware('verified.user', EnsureUserIsVerified::class);
 $app->router->aliasMiddleware('set.locale', SetLocaleFromHeader::class);
 
