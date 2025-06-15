@@ -1,0 +1,2829 @@
+{
+	"info": {
+		"_postman_id": "e21a1aa2-89ff-406a-a91c-b00734b415d7",
+		"name": "Nurse App",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "23536912",
+		"_collection_link": "https://brmja-team.postman.co/workspace/Brmja-Team-Workspace~b24e1269-37cd-443e-80dd-c1270201bb74/collection/23536912-e21a1aa2-89ff-406a-a91c-b00734b415d7?action=share&source=collection_link&creator=23536912"
+	},
+	"item": [
+		{
+			"name": "Patient",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "full_name",
+											"value": "Eslam",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "eslam15@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "phone_number",
+											"value": "011147059523",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123123123",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123123123",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"value": "male",
+											"type": "text"
+										},
+										{
+											"key": "patient_avatar",
+											"type": "file",
+											"src": "/C:/Users/Techno Shield/Desktop/433869950_122101934150250307_1968101326832324121_n.jpg"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forget Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "alimazen2001ali@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/forget-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"forget-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "abdallahkhalifa505@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123123123",
+											"type": "text"
+										},
+										{
+											"key": "fcm_token",
+											"value": "eQ2yv2KOQfGgne1sx3kuO_:APA91bFkIyNi-uAMc6B5rQAWPtTRkR-XjGWlXHBPzIyPZ2JYTcBfmmpNGIaiC5xS7-mxFMQQ4SDubLVZcS42IJvf44zlmKfmPW_yVEgkBx_ELc0Z47RfuvQ",
+											"type": "text"
+										},
+										{
+											"key": "device_type",
+											"value": "android",
+											"description": "android,ios",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "alimazen2001ali@gmail.com"
+										},
+										{
+											"key": "reset_token",
+											"value": "87345030-0908-4e35-8590-4e8b5deb50d8"
+										},
+										{
+											"key": "password",
+											"value": "123456789"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123456789",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/reset-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forget Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "ahmed@example.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/forget-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"forget-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify otp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "alimazen2001ali@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "otp",
+											"value": "1444",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/verify-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"verify-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify register otp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multi",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "eslam21@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "otp",
+											"value": "6038",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/verify-register-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"verify-register-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "resend otp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "eslam20@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/resend-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"resend-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/delete-account",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"delete-account"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Home",
+					"item": [
+						{
+							"name": "Home",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "type",
+											"value": "blood_bank",
+											"description": "nurse,hospital,blood_bank,lab,ray",
+											"type": "text"
+										},
+										{
+											"key": "",
+											"value": "",
+											"description": "Phone  ",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/home?name=&radius=1000",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"home"
+									],
+									"query": [
+										{
+											"key": "name",
+											"value": ""
+										},
+										{
+											"key": "radius",
+											"value": "1000"
+										}
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/patient/home",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"patient",
+												"home"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 13:31:30 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.12"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.12"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 9,\n            \"full_name\": \"Mohamed\",\n            \"address\": null,\n            \"lat\": 29.998264,\n            \"lng\": 31.158755,\n            \"rate\": null,\n            \"image\": \"http://nursing-app.test/storage/31/352370606_6845909802095441_6109451971821841691_n.jpg\",\n            \"type\": \"Nurse\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"last\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://nursing-app.test/api/patient/home?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://nursing-app.test/api/patient/home\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    },\n    \"status\": true,\n    \"message\": \"Nearby nurses loaded successfully\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Most Common Favorite Providers",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiY2RkYmI1M2UzMTFmODUwOTZhMThhNmMyZDZlOTJkM2MyOTIwZmM1NzI1N2ExNWQ1MGNhZWQ0MGNjMzc2MmFlODBkMzJkNzFlNDczMjY2ZjIiLCJpYXQiOjE3NDY3MTcxNzIuNTQzMjU2LCJuYmYiOjE3NDY3MTcxNzIuNTQzMjU3LCJleHAiOjE3NzgyNTMxNzIuNTM0NzY1LCJzdWIiOiIyIiwic2NvcGVzIjpbIioiXX0.BSrCAx-mwAN4pIogreKz5ceq9_C-97SOI5jzOMn5EwGXX7Er3aYFOo5LmEZdxewHBGq2ab7ud2O3UUWbKTRPI-ga5GXJpWwS9V7rs4LlgeBf3sgczlbxrr788gyAiIQWBwKPvr0UBE07QELVGk_37L7Kl0qV5fL5wg_WVjvqmqODc9LLOEUYFqY-qG5s4ViUwpJ1zlOcy3OOTZVqoZ0phfu6cgYpOmICOvfY2CZRuyH2iQr5vVOq0-rcz8MIXpuA6iVpHXpN9gGhag31jVNU9KyDweooWjAEi20hmVP7XpTLHzK8DMBrMlBzunkQvc0zOb_76LsbGvHtBdOg48VjCLuY5-nfRnsfYgIZgkPbzJRteZ4vNquszAS900QaN4Sa2QRXv5EYXtHZCDTB6h1m9XJWSCR8Tvb61TZmi7p2eEXGdwIbIHd1CAad4GpxdJiPr7CLk1DnjJ4c0OM_1AIhQxJlgdeTRCSwto7cKtKDXC6FBX69gSvZ_lst-TovDUXgfzPFODJVid4WP5xgKYh0-RGU0kVs2_JNabVUAvq5ztX2IS8lgeQKGKgjgOwlvm7xNjcO3giURa8L0EtqhYIVSZDYCNpVirWAoOgZYUBJxHUOqvGnm_bsEXxlrJNribUC033fqtuKtUUTD-PQTrjNXlOixggbjurxkLxaH8ylbVY",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/most-common-favorite-providers",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"most-common-favorite-providers"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/patient/home",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"patient",
+												"home"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 13:31:30 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.12"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.12"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 9,\n            \"full_name\": \"Mohamed\",\n            \"address\": null,\n            \"lat\": 29.998264,\n            \"lng\": 31.158755,\n            \"rate\": null,\n            \"image\": \"http://nursing-app.test/storage/31/352370606_6845909802095441_6109451971821841691_n.jpg\",\n            \"type\": \"Nurse\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"last\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://nursing-app.test/api/patient/home?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://nursing-app.test/api/patient/home\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    },\n    \"status\": true,\n    \"message\": \"Nearby nurses loaded successfully\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Reschedule Reservation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "order_id",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "scheduled_at",
+											"value": "2025-5-10",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/reschedule-reservation",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"reschedule-reservation"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/patient/home",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"patient",
+												"home"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 13:31:30 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.12"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.12"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 9,\n            \"full_name\": \"Mohamed\",\n            \"address\": null,\n            \"lat\": 29.998264,\n            \"lng\": 31.158755,\n            \"rate\": null,\n            \"image\": \"http://nursing-app.test/storage/31/352370606_6845909802095441_6109451971821841691_n.jpg\",\n            \"type\": \"Nurse\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"last\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://nursing-app.test/api/patient/home?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://nursing-app.test/api/patient/home\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    },\n    \"status\": true,\n    \"message\": \"Nearby nurses loaded successfully\"\n}"
+								}
+							]
+						},
+						{
+							"name": "Cancel Reservation",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "order_id",
+											"value": "5",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/cancel-reservation",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"cancel-reservation"
+									]
+								}
+							},
+							"response": [
+								{
+									"name": "New Request",
+									"originalRequest": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{base_url}}/api/patient/home",
+											"host": [
+												"{{base_url}}"
+											],
+											"path": [
+												"api",
+												"patient",
+												"home"
+											]
+										}
+									},
+									"status": "OK",
+									"code": 200,
+									"_postman_previewlanguage": "json",
+									"header": [
+										{
+											"key": "Date",
+											"value": "Wed, 23 Apr 2025 13:31:30 GMT"
+										},
+										{
+											"key": "Server",
+											"value": "Apache/2.4.54 (Win64) OpenSSL/1.1.1q PHP/8.2.12"
+										},
+										{
+											"key": "Vary",
+											"value": "Authorization"
+										},
+										{
+											"key": "X-Powered-By",
+											"value": "PHP/8.2.12"
+										},
+										{
+											"key": "Cache-Control",
+											"value": "no-cache, private"
+										},
+										{
+											"key": "Access-Control-Allow-Origin",
+											"value": "*"
+										},
+										{
+											"key": "Keep-Alive",
+											"value": "timeout=5, max=100"
+										},
+										{
+											"key": "Connection",
+											"value": "Keep-Alive"
+										},
+										{
+											"key": "Transfer-Encoding",
+											"value": "chunked"
+										},
+										{
+											"key": "Content-Type",
+											"value": "application/json"
+										}
+									],
+									"cookie": [],
+									"body": "{\n    \"data\": [\n        {\n            \"id\": 9,\n            \"full_name\": \"Mohamed\",\n            \"address\": null,\n            \"lat\": 29.998264,\n            \"lng\": 31.158755,\n            \"rate\": null,\n            \"image\": \"http://nursing-app.test/storage/31/352370606_6845909802095441_6109451971821841691_n.jpg\",\n            \"type\": \"Nurse\"\n        }\n    ],\n    \"links\": {\n        \"first\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"last\": \"http://nursing-app.test/api/patient/home?page=1\",\n        \"prev\": null,\n        \"next\": null\n    },\n    \"meta\": {\n        \"current_page\": 1,\n        \"from\": 1,\n        \"last_page\": 1,\n        \"links\": [\n            {\n                \"url\": null,\n                \"label\": \"&laquo; Previous\",\n                \"active\": false\n            },\n            {\n                \"url\": \"http://nursing-app.test/api/patient/home?page=1\",\n                \"label\": \"1\",\n                \"active\": true\n            },\n            {\n                \"url\": null,\n                \"label\": \"Next &raquo;\",\n                \"active\": false\n            }\n        ],\n        \"path\": \"http://nursing-app.test/api/patient/home\",\n        \"per_page\": 15,\n        \"to\": 1,\n        \"total\": 1\n    },\n    \"status\": true,\n    \"message\": \"Nearby nurses loaded successfully\"\n}"
+								}
+							]
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Update Location",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									},
+									{
+										"key": "",
+										"value": "",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "lat",
+											"value": "30.003040",
+											"type": "text"
+										},
+										{
+											"key": "lng",
+											"value": "31.1837325",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/update-location",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"update-location"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update FCM Token",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "fcm_token",
+											"value": "asdasdششش12",
+											"type": "text"
+										},
+										{
+											"key": "device_type",
+											"value": "android",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/update-fcm-token",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"update-fcm-token"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "Store Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1IiwianRpIjoiYmQxYWI3NGQ2MGMwYmQyZjNjNWVkMWRhMDQ2NzA1Yzg1YTBhOGM0MzlkYzczYjNlYzNkNTc5ODNhNTU3ZDViNGY5ZDljZDIwN2Q3MWE1ZTciLCJpYXQiOjE3NDU3NjI5NzguNTU2OTc1LCJuYmYiOjE3NDU3NjI5NzguNTU2OTc3LCJleHAiOjE3NzcyOTg5NzguNTQ0MDkyLCJzdWIiOiI3Iiwic2NvcGVzIjpbIioiXX0.zBAX_XWv6ewh832TYxsRFaaUlLOy_yizNZEA2dW_8Pz_fikHAuNsinczRudDpjjA_R30QeFE9h8E8HFjJ7dkCyufG-tk01luwEaCzcsN-eUfJ0lgHJMuIWURaQJUpXm8Sd_Y-v1Ug--tUG3C_6zhR7Q9e2PzRJ0A94ejMLwjq8f8yMGEK2vkiOmLg53tn3Xh_PWb8CoCqjk3ZlSfgsqQHIGdm9-gDM-MQONzHeFZtQvvrZF_af62zLQVtIZOEiHGO4RrTNqxN9lhWzxcYlA9Gk-PgTLVKxd-EggKyMDi8WFwabZQ8uUprV_TdBrIuEg5OMhnpy0PkfsUafX4EnFi7s5z23cHgsib0x4fPIVBz4fc0MafXPVl3rKGqoZc65kyGLijgRegDkU10toqqnu31iE9yxpCJxNo6whwtDX3A6gFj-y_j2QZQ6Iw6k1KBWVKT5hct5BbFFBhTFa2Nrdez4NFYbPuJRjiHYtSWzsCuwA80TaMEYSFv-gzFWp8EtScMhqfxlB1NqEXfogsJic4PGUw3qfhYJVPriPsHB5HzhVErrQ5orAO_VIJFJlGe0GLMyaaYCJCXDoGehPBR2occt6v2nVWHUuX2D3ZqdyYoiB3zppzfmxlI2kYdRuY_8gXDe5q_zwdVNUakJ0Zi7EfH-briUDVL_fyFTNUtb4m3GA",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "ar",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "nurse_id",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "scheduled_at",
+											"value": "2025-04-28 14:30:00",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "200",
+											"type": "text",
+											"disabled": true
+										},
+										{
+											"key": "note",
+											"value": "test",
+											"type": "text"
+										},
+										{
+											"key": "patient_condition",
+											"value": "test2",
+											"description": "وصف",
+											"type": "text"
+										},
+										{
+											"key": "visit_date",
+											"value": "2025/05/28 12:00",
+											"type": "text"
+										},
+										{
+											"key": "visit_time",
+											"value": "morning",
+											"type": "text"
+										},
+										{
+											"key": "nurse_hours_id",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "address",
+											"value": "test address",
+											"description": "Required",
+											"type": "text"
+										},
+										{
+											"key": "city",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "area",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "street",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "building",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "floor",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "apartment",
+											"value": "",
+											"type": "text"
+										},
+										{
+											"key": "payment_method",
+											"value": "cash",
+											"description": "static for now",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/orders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"orders"
+									],
+									"query": [
+										{
+											"key": "test",
+											"value": "1",
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Order",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/patient/orders/2",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"orders",
+										"2"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Statuses",
+							"request": {
+								"auth": {
+									"type": "bearer"
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/order-statuses",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"order-statuses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Nurse Work Hours",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "{{token}}",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/get-nurse-work-hours/14",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"get-nurse-work-hours",
+										"14"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Rating",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/patient/add-rate/2?rate=4&comment=Test",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"add-rate",
+										"2"
+									],
+									"query": [
+										{
+											"key": "rate",
+											"value": "4"
+										},
+										{
+											"key": "comment",
+											"value": "Test"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Favorites",
+					"item": [
+						{
+							"name": "Add Favorite",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "provider_id",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "provider_type",
+											"value": "nurse",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/add-favorite",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"add-favorite"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Remove Favorite",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "provider_id",
+											"value": "10",
+											"type": "text"
+										},
+										{
+											"key": "provider_type",
+											"value": "nurse",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/remove-favorite",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"remove-favorite"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Favorites",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/patient/my-favorites?str=Test",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"my-favorites"
+									],
+									"query": [
+										{
+											"key": "str",
+											"value": "Test"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notifications",
+					"item": [
+						{
+							"name": "Read Notifications",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/patient/notifications/2/read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"notifications",
+										"2",
+										"read"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read All Notifications",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/patient/notifications/mark-all-as-read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"notifications",
+										"mark-all-as-read"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Notification List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/patient/notifications",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Reservations",
+					"item": [
+						{
+							"name": "All Reservations",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIxIiwianRpIjoiODM0YTFlZjJmOTc1MWQyMTg0MTZkM2RjNzA5OTI3NzJjZTMxNGQwYzM4ZTUzYjljMGFhMzRhZDdmMjUzZDA3ZmRjNWZhNGIyYzIwZmZjNTMiLCJpYXQiOjE3NDY2MTEzNzIuMDUyMDEyLCJuYmYiOjE3NDY2MTEzNzIuMDUyMDE1LCJleHAiOjE3NzgxNDczNzIuMDQ2NDQ1LCJzdWIiOiIyIiwic2NvcGVzIjpbIioiXX0.2C5OJi1XxFraZBZgnCzlMz8s7O0IdcUegCj5Od6-1ZfSsHVkLe5SBcCzKoSCPy4JJIpaEU1gVVwPPlxzX53_aXIqxJP2LNsTYD9t5WLvh12wi3w_5H9i5uXKd4u2h60z0xs4rQv4A1gUe5Vie91NtLG3SdRNmMa8WOV7RSafjWW_KUfDN52SQQmpL2p1ByMY-oZiSznNZSrPv09qX8xabfg_hYtlw3YhXfJoPylffkaMy9Y8_D1qomPV5DCblFdo7gyLSGCWph1bi7lHscMvaJgDkH2N4swi2BjWZiJMfDcJUyUmSEnKF6ZYBFhH92bwD6ex1oLY-9ymZOSzcqRyO6IJXown4y78ta02RVYdxb79lu53AsdHGIzjGM6vYnCrApsO0SpFbDSZ_b9W5yX3YIG01Irdn6HdTUF7S_mtlA6uPxbOaNsanx7vKDvHx6nHEFzPnbJORYy3DBds8tAH7PNMy9xk3G2RAl6KSOtGKs9kNYJOmDH-50DfV6WviqNjK27DkaaVjn9n0PBqcunfUgtigQyHnsDCJPFWWtl1V9Pr7MKN0_T6gADNPidje1eZLqgq5xyjU-p9A0SO5WA5KlmkrZP-qFlloT-rC-bRl1-YHw1mKrSV2fdZo_Z5jwccAnpUIz5EmmrW62H4gSUUIaS04VJAh6sRDLlUGYrwlGo",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/reservations?status=canceled",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"reservations"
+									],
+									"query": [
+										{
+											"key": "status",
+											"value": "canceled",
+											"description": "'pending', 'confirmed', 'in_progress', 'completed', 'cancelled'"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Payment",
+					"item": [
+						{
+							"name": "Pay",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "order_id",
+											"value": "5",
+											"type": "text"
+										},
+										{
+											"key": "payment_method",
+											"value": "wallet",
+											"description": "cash, credit, wallet",
+											"type": "text"
+										},
+										{
+											"key": "type",
+											"value": "order",
+											"description": "order or settlement ",
+											"type": "text"
+										},
+										{
+											"key": "amount",
+											"value": "",
+											"description": "required if settlement type",
+											"type": "text",
+											"disabled": true
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/patient/pay",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"patient",
+										"pay"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "hmac",
+										"value": "ED0BDBE01D6E5DCC9CEAF44F67A3FBCB",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"amount_cents\": \"10000\",\r\n  \"created_at\": \"2025-05-05T12:00:00\",\r\n  \"currency\": \"EGP\",\r\n  \"success\": true,\r\n  \"order\": 123456\r\n}\r\n\r\nhttps://nnursing.net/nursing-app/api/paymob/webhook?id=293738097&pending=false&amount_cents=10000&success=true&is_auth=false&is_capture=false&is_standalone_payment=true&is_voided=false&is_refunded=false&is_3d_secure=true&integration_id=5079973&profile_id=1041769&has_parent_transaction=false&order=328387789&created_at=2025-05-08T16%3A55%3A48.414215&currency=EGP&merchant_commission=0&discount_details=%5B%5D&is_void=false&is_refund=false&error_occured=false&refunded_amount_cents=0&captured_amount=0&updated_at=2025-05-08T16%3A56%3A08.133363&is_settled=false&bill_balanced=false&is_bill=false&owner=1957714&data.message=Approved&source_data.type=card&source_data.pan=2346&source_data.sub_type=MasterCard&acq_response_code=00&txn_response_code=APPROVED&hmac=b83629a2961f6423065028ebb57fa54a49ccb3d6b53b1fe01be56c67c6ad38b0d989372f5c6fa0387287ac3aa61965ee09e398532c09b3c12215de4d73ea74f1",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://nnursing.net/nursing-app/api/paymob/webhook",
+									"protocol": "https",
+									"host": [
+										"nnursing",
+										"net"
+									],
+									"path": [
+										"nursing-app",
+										"api",
+										"paymob",
+										"webhook"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1IiwianRpIjoiMDI2NGFiYjBlMWE4YmFiMTJkYWQ0ZmRhMzU5OWVjOTlkMDNlMGZlNWQ3YWM4MmYxMGM4ODE3Y2QwZWI3ZjI3ZGZmM2FmMDUzYWFiZmEzNDUiLCJpYXQiOjE3NDY5NTA1NjIuMjAwNDM2LCJuYmYiOjE3NDY5NTA1NjIuMjAwNDM4LCJleHAiOjE3Nzg0ODY1NjEuODAyMDY5LCJzdWIiOiI3Iiwic2NvcGVzIjpbIioiXX0.BEHqzxi4dBZxsytgy2O60fQXiVfMYD1Nk-5uvquXoetV8Ikv3AIf10O4CpB-iRD7z58FXnqM0Z6iNxECIaJoeyzwMe6Gzu2jSGYYLR4q9-KGUd0GFY57J4QvNEimS87DR9N_pQ50xvJMod9HqVv56K4LpbHRQssjRobYqdKUHu3WK5fS6CTyQWdHXuksSpRmKIh4KskAOOLlI-V2q8jprbsGpSiPRnRHrPD6rGkIkDLXqbPORhliZdf1BrOExW-izQOl_hoQ_00G8P8jDWIeGUwyMfqDUUv6fplqHKEMM7vlc-24IIJjOChQJev94A2hHLmh7V8P4LeZYFO8eEAcCHpIqhoh20tPApY2JENumFZsk6VpVIUz3ausMHPClyZbRZl6NfBxl8rcvAyPBjNML2NPYEI_XWPgo1xeKOV09Vd6Xxje938XqmKy1qT04m5FTxt5OVZhpvBYtmb4y-qIDrieApdNNLf5Q1riIXqDGauX-XEnn3j5x1fIjZOteByQsPpnlb9PFRls0v0gi_XmFnAYIVL3zoCLiz9zMK3WZPij9mf3H--cdZGsd1XhcIlQX-B_bwA0CJcHpK6MkbqAGN9fySL0PTQ4OLJ5RdPghFNsHSONc8_Eciw8K8PmflLpYnd8ezELGXdCJP5yd-_4V2Him-DF4iTz_U4FK6jl1jk",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Nurse",
+			"item": [
+				{
+					"name": "Auth",
+					"item": [
+						{
+							"name": "Register",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "full_name",
+											"value": "mohamed",
+											"type": "text"
+										},
+										{
+											"key": "email",
+											"value": "mohamed19@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "Strong123",
+											"type": "text"
+										},
+										{
+											"key": "phone_number",
+											"value": "01114705951",
+											"type": "text"
+										},
+										{
+											"key": "union_number",
+											"value": "123123123",
+											"type": "text"
+										},
+										{
+											"key": "gender",
+											"value": "male",
+											"type": "text"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "Strong123",
+											"type": "text"
+										},
+										{
+											"key": "profile_image",
+											"value": "",
+											"type": "file"
+										},
+										{
+											"key": "id_card_back",
+											"type": "file",
+											"src": "/C:/Users/Techno Shield/Desktop/448158985_454019777327646_2421821655212505464_n.jpg"
+										},
+										{
+											"key": "union_card_back",
+											"value": "",
+											"type": "file"
+										},
+										{
+											"key": "criminal_record",
+											"value": "",
+											"type": "file"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/register",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "New Request",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n  \"grant_type\": \"password\",\r\n  \"client_id\": \"9eb95f1a-184d-431a-9fc2-fbcd6d32f0a9\",\r\n  \"client_secret\": \"7oH99nXwg9JSVJctlspNgTIZw7THQSwlsGpLo6u1\",\r\n  \"username\": \"mohamed1@gmail.com\",\r\n  \"password\": \"Strong123\",\r\n  \"scope\": \"*\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{base_url}}/api/oauth/token",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"oauth",
+										"token"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Login",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "abdallahkhalifa505@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "password",
+											"value": "123456789",
+											"type": "text"
+										},
+										{
+											"key": "fcm_token",
+											"value": "dBqnPBQ0TWSzGnywyRv5cI:APA91bFTzbm11JVLE82GXltHCiL0CnC1XMOqBFBQd3x25izl4QdmDh3m8Ik7xsFoZLzX7vlfeGXiNJi9VWvzWqHVspBvyEAr80BVhwThdz1wtoolUQIH9QI",
+											"type": "text"
+										},
+										{
+											"key": "device_type",
+											"value": "android",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/login",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"login"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Forget Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "abdallahkhalifa505@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/forget-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"forget-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify otp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "abdallahkhalifa505@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "otp",
+											"value": "8291",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/verify-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"verify-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reset Password",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "abdallahkhalifa505@gmail.com"
+										},
+										{
+											"key": "reset_token",
+											"value": "0ffffbc0-ffe0-492c-81cd-ae93f96f9298"
+										},
+										{
+											"key": "password",
+											"value": "123123123"
+										},
+										{
+											"key": "password_confirmation",
+											"value": "123123123",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/reset-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"reset-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Change Password",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "current_password",
+											"value": "123123123",
+											"type": "text"
+										},
+										{
+											"key": "new_password",
+											"value": "123123122"
+										},
+										{
+											"key": "new_password_confirmation",
+											"value": "123123122",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/change-password",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"change-password"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "verify register otp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "mohamed19@gmail.com",
+											"type": "text"
+										},
+										{
+											"key": "otp",
+											"value": "3755",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/verify-register-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"verify-register-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "resend otp",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "email",
+											"value": "eslam18@gmail.com",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/resend-otp",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"resend-otp"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Logout",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/logout",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"logout"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Delete Account",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/delete-account",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"delete-account"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Profile",
+					"item": [
+						{
+							"name": "Update Location",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI0IiwianRpIjoiZjg3ZmY5MGFkOGI0MjQzMGQ4OTM2NjkzNmMxMzcwZGZhZTU3ZWM4YzRiZjM2YWQ5NTdhNTY3NmJjZDViZGEwNTJhNDVlNjZhZjdiMDhjNWEiLCJpYXQiOjE3NDU3NTE2OTkuODg3Nzg5LCJuYmYiOjE3NDU3NTE2OTkuODg3NzkxLCJleHAiOjE3NzcyODc2OTkuODcyOTIyLCJzdWIiOiIxMCIsInNjb3BlcyI6WyIqIl19.EJh6HJNbb9h6PfaS0xhwGqyJY6Ig3cnu5rzy4HtAja1cABsDzqg1GKK03CGM4q5RPuy9LnZ-tJ41FoAZUZ3URWB9s33nWcBFe7p4Rs7GN6K8ejL6tsvmdB9Sd6lwGYbdW636Jduo1sVzMVIeAFMbREb-ZaFMhgN9jvJzarEVMP4AAJDI9xqFMPALMD_hp8X5OaokynkidXE7-VHC0JNqnPZwT4sWR8kJSSHUcn0U9v51uTfRGWmFOxEJJj-nNQDHrV69IjYkLPwN29tYMi2fWuL4pYpbfuw_rvDnpmBMyVZ3nsA5Mid39--dvi4Va-JT8S19x-nKMyxwVD3YSddfuo-xsYfrpCMjwZUPJhX4BnsV11UayPH9_eau0tW9HP-JUbuVVi9eSUvy0WPWEhWyEQIUlmAVkwSy6FwU6Jv6DBWdA7j3fHk6BSiyn_C5ucFZNapQz44C9I3uTA35P1Uz2m2SXZ-qGFhBmduC1ZVIX8dx047OPqKTjFPIRCUYYn_jiguh2GOegdyLF_9iUvXm4L527CCjZlsvwRi4EWBMIjHA_Qd3S-wTMejf4BqZmnOB7d-ZpwAkOeiWXlbHU4LRoHSmBnBLtRf3Mmzq8OMQYrf8-MBALDKwIjsLIBjX6DFwpmKVK7fmrbgti85WU74GFFxrgEq2fr15dl6e7SR1mA0",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "multipart/form-data",
+										"type": "text",
+										"disabled": true
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "lat",
+											"value": "29.998264",
+											"type": "text"
+										},
+										{
+											"key": "lng",
+											"value": "31.158755",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/update-location",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"update-location"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Add Work Hour",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNGFiODg5ZWM0ZDM1NzJkNTZjZjJjZjIzMDQ0MTBkZTEyMmFiZTY2MDNhYjA0ZDY0YTUxYzAyYzJiMmQxNzM5YzJhYzRiMDY2NmM5YTgwMjEiLCJpYXQiOjE3NDU4MjYzMzIuNTU2OTYzLCJuYmYiOjE3NDU4MjYzMzIuNTU2OTY1LCJleHAiOjE3NzczNjIzMzIuNTQ3NjIzLCJzdWIiOiIxNCIsInNjb3BlcyI6WyIqIl19.j0aw9vGuitj7hLdeO5wjP3FWzj97FcwzDz6nbvgag0q7Nah1Trgvl6c7bPhODmS0nyMMLukstqGxiDCfPKodda2bsmr74LIWgjHYSDSZS2gPkncY5zTUbEORkPQzsTt5WwuWXB5x8cJFooxyJwZxWRVWjI0xtlyCRTHFPVN9pDgkanCbAUgo5mhv6OpiovnSQLyZva54fwApqKdNPLaWCr_G_Stx-A-DqT7cwHq_SnK92FhZzbb7vPmk4VDsIDE7EG_dpHrLvybv2wUWhYu9P31Mg6srBeLdeTdc7XMqMcvlBjcnCitONSzSnDJ5-4Gi9OhH_Hbi0eDPVSDwkPuBTPD59RFxbjxxmKbUXeK3PrTlax8DBtGDa_0uuSUUjP_eF6B7CeRDU3BvjZizPGRmndqMi6Xgyuy1zTjCaBW8KgiVmcXffELG0yHxoXU-V34fshVY8U7A-CqSoGI3OW3rtX1pqeY_GAhK-0nFhAX2nzS0lrcyE3ejqkV-kEOZX_6PVUbKRwxKNl9igCq94h84gKCRbqvuT4ZToluU-W2JYxDLAZQ3qKLl9eBp-IPAtCdWb9CQAzD3YigqkRD0AKHv3NuqQTy2wOzs2izD0ExKKhQpfDOOf0OkFMZHRxIY3QryRs3t8lIj5Nwhj-lU1z84MDWJB1PniCFn5b5DDO8varw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "hours",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "100",
+											"type": "text"
+										},
+										{
+											"key": "day",
+											"value": "saturday",
+											"description": "nullable -> saturday ,sunday .. In smaalll letters ",
+											"type": "text"
+										},
+										{
+											"key": "additional_hours",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "additional_price",
+											"value": "100",
+											"type": "text"
+										},
+										{
+											"key": "time",
+											"value": "morning",
+											"description": "nullable >> morning or evening",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "active",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/add-work-hour",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"add-work-hour"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Work Hour",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiNGFiODg5ZWM0ZDM1NzJkNTZjZjJjZjIzMDQ0MTBkZTEyMmFiZTY2MDNhYjA0ZDY0YTUxYzAyYzJiMmQxNzM5YzJhYzRiMDY2NmM5YTgwMjEiLCJpYXQiOjE3NDU4MjYzMzIuNTU2OTYzLCJuYmYiOjE3NDU4MjYzMzIuNTU2OTY1LCJleHAiOjE3NzczNjIzMzIuNTQ3NjIzLCJzdWIiOiIxNCIsInNjb3BlcyI6WyIqIl19.j0aw9vGuitj7hLdeO5wjP3FWzj97FcwzDz6nbvgag0q7Nah1Trgvl6c7bPhODmS0nyMMLukstqGxiDCfPKodda2bsmr74LIWgjHYSDSZS2gPkncY5zTUbEORkPQzsTt5WwuWXB5x8cJFooxyJwZxWRVWjI0xtlyCRTHFPVN9pDgkanCbAUgo5mhv6OpiovnSQLyZva54fwApqKdNPLaWCr_G_Stx-A-DqT7cwHq_SnK92FhZzbb7vPmk4VDsIDE7EG_dpHrLvybv2wUWhYu9P31Mg6srBeLdeTdc7XMqMcvlBjcnCitONSzSnDJ5-4Gi9OhH_Hbi0eDPVSDwkPuBTPD59RFxbjxxmKbUXeK3PrTlax8DBtGDa_0uuSUUjP_eF6B7CeRDU3BvjZizPGRmndqMi6Xgyuy1zTjCaBW8KgiVmcXffELG0yHxoXU-V34fshVY8U7A-CqSoGI3OW3rtX1pqeY_GAhK-0nFhAX2nzS0lrcyE3ejqkV-kEOZX_6PVUbKRwxKNl9igCq94h84gKCRbqvuT4ZToluU-W2JYxDLAZQ3qKLl9eBp-IPAtCdWb9CQAzD3YigqkRD0AKHv3NuqQTy2wOzs2izD0ExKKhQpfDOOf0OkFMZHRxIY3QryRs3t8lIj5Nwhj-lU1z84MDWJB1PniCFn5b5DDO8varw",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept-Language",
+										"value": "en",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "hours",
+											"value": "2",
+											"type": "text"
+										},
+										{
+											"key": "price",
+											"value": "100",
+											"type": "text"
+										},
+										{
+											"key": "day",
+											"value": "saturday",
+											"description": "nullable -> saturday ,sunday .. In smaalll letters ",
+											"type": "text"
+										},
+										{
+											"key": "additional_hours",
+											"value": "1",
+											"type": "text"
+										},
+										{
+											"key": "additional_price",
+											"value": "100",
+											"type": "text"
+										},
+										{
+											"key": "time",
+											"value": "morning",
+											"description": "nullable >> morning or evening",
+											"type": "text"
+										},
+										{
+											"key": "status",
+											"value": "active",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/update-work-hour/1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"update-work-hour",
+										"1"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Work Hours",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/get-work-hours",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"get-work-hours"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Transactions Logs",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/transactions-logs",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"transactions-logs"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Order",
+					"item": [
+						{
+							"name": "Statuses",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiMGFkYWU0NDk2MzgxYzhmNDZkZDc1Yjk2YjhlMDkwOGYyNGJjODVjMWI3NDYxM2UzNDk2ZTljZWEwNjgxZjBmY2JmZTFjN2JkNTU4Mjg4ZTQiLCJpYXQiOjE3NDYzNjQ0NzEuOTY0ODA3LCJuYmYiOjE3NDYzNjQ0NzEuOTY0ODA4LCJleHAiOjE3Nzc5MDA0NzEuOTU2ODQ2LCJzdWIiOiIxNCIsInNjb3BlcyI6WyIqIl19.TWjMQQfL3ojnT-oiFpZnj8M-Y5KXXLk-vS4OYwnw8Wsv6DaPLUw09a-5cG4DZ3MnaRXh1_8d1cHbjxmID1HeLN1EoiB6t--nDSQwujdrKQoyfI-2jblXvteAVf_QuzT_RBTqjaNpnMovXDocEkl2Gzb2BmGCDKrV7_Kun30Vdl25od_yHNVF6armXcGVNhlHjIbseQMvh4vPaNruLywdUVeVlVO2sC6W0cRwPDGoXe48jOirlG0_juwMr0Bf6UUgsqsJu6vTLkJvvYBZ5Qq0GB30jdpXyjFpIq7nvWIBy0sHlih5bcTI5bI7qyZCL2WLoeD9tFWwNQc8oZZDNL6iduFHlB5Oj-VRYk6uV6G8arYU_K8ublnksZvRxcDdLdzmB0OLGHMmTEtixXtWp7o7cZp3GCOQhE5sxhT8eJJkQNuz40zWC3JZdImFd1UKg-e4qqxI-bNOY7OAd91ZHkIcfvBqGMgSOddtbUCKPTd9h1RiA0_XONnxFCW4V2dPBlwRxRroZEIuvrjIKlb6Q12aoldql2HcaOedQVNtkt6770_VhGxh-0PSMZL3oUQ9jCOLfbb4SLNQ_2n63vnW0pgZn-HeFIK2ODj9WXTVNm8Okd9N5nWBGzsD9GrHi1MTD2_E_9TGY8jInDX6E53aO80CjF46q5phStwssvnE6K5M_Yk",
+											"type": "string"
+										}
+									]
+								},
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/order-statuses",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"order-statuses"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Show Order",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/orders/5",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"orders",
+										"5"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "All Orders",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/orders",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"orders"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Accept Order",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiZGQ2NWU0MDdkOWE2MzdiNjE5YmI2MGY3ODUzMjY0MWUwZjVhZDg3YTE4OWY1NmRlMmFhNjFiZTVjZDRjYWRjNzBmMDZlZjk1MDZhMzc0YzUiLCJpYXQiOjE3NDYwMjUwMzYuODkxNjk2LCJuYmYiOjE3NDYwMjUwMzYuODkxNjk4LCJleHAiOjE3Nzc1NjEwMzYuODgxNjI2LCJzdWIiOiIxNCIsInNjb3BlcyI6WyIqIl19.a0UUn_7EqpOheVInKpxhGDUSQNFV_1_3J4UkKKqUsz0Ofi7cw5Taag_fjviK2VfS3v0OHFr9degYFjbmGNkL34FXRAd1nomzJCDKV3BgJUtEqLxEsB4BSFG6TWCezG2siDLYT0a4NfBl0xURawPEEuQFYeizFrpof8w_Qimc17zoiLyHIOPfo76vHlb1beZCWNgkzL3Wtz8t3Slw2uo0cRZ11SogyE_4bbISWvUcmn-ajWXg9Us4nUQErHGL1qzta9SqbD_WcpVFW1X-V301CALa5qoZ8HGs4XZqeZxmGydNj9CyrOiylstzhXEYwn0AoWc4bC3R8eX3ndtK3DVGbHwjrmExk6yCNzpGi3B-6YefVbkXC7Q_CegFcg5l4fpsNRUdEdvtoSV6rzdatIo-bclxO_BvnN0JMmJwp8B0fTB-BU342OAghfWYUxKo1gdhEOUanavs7b90GoV66F2hI9Kehhp2yBb6WZ8ZdcV5JpEMtzZHRNAkK8A1I3bT6TtQK0MJpsIouztKimlnrm9t-cDLGcsvVxhqXgVaOh7wlSsZc9dPzQp3FiIeYXxiuHjKB1SVj0SYA-sid6LOzZXXDxdB_4OYo43dw6JASUo353pxlnb7kgX0kckUjOgacGoeMQxWWHBGy08Rv4To6zffcl6WQFi-6Dfyt5uh1FvX1_Q",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/orders/8/accept",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"orders",
+										"8",
+										"accept"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Reject Order",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/orders/6/reject",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"orders",
+										"6",
+										"reject"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Update Status",
+							"request": {
+								"auth": {
+									"type": "bearer",
+									"bearer": [
+										{
+											"key": "token",
+											"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiODkyN2M1M2E2YjRlZWYyM2NmMzQzMWI1MzY0OWVjNDc3MTJkNjc1N2Y2NTYyMDUyYzM2NDFkMTM1NGYyMTRhZjExYzE2MGY2NzYyY2RjMDQiLCJpYXQiOjE3NDY2MjY5OTIuNzI3NTYyLCJuYmYiOjE3NDY2MjY5OTIuNzI3NTY1LCJleHAiOjE3NzgxNjI5OTIuNzE4ODc4LCJzdWIiOiIxNCIsInNjb3BlcyI6WyIqIl19.LZMK-_OULseav7p9MhGVjanoJRVdDtJw8FYFLWdspCmUjoyzLchsat1YgW5IKIdTLtYQMcelvABarhrOToE4gfzSH1xpoX_4EpxrRxU1EbUNiHxTMCZ7uqXwqMTZryYNtR0qf5DxkyDS5qMTGNVpmReyoOaTGn_8gDLjfjwsOAOQUiXfGtqLnSl63FiDPRAr3KA9KLSoJQakRgBisRyybiAQmsb_YK1QmJ1CgIQF81uMYIhTqZw6OxEZ_OcxxX8-gJwwqTDdEIY93puxMxpPVVQOJfefy4CPdjONKzLVsQgGC_QV6D9DaWxUDZs87DwiKfqAo4sKRKnp3gEXuuDQTxSb35GABuI8YbeL6bWoL8BtHKn0QpyUg2zIGMT4k8SOmfqryw5W6BLRj5pCHuYfFfe_Ui5QWdv093AEdWC_8jp0uYaq-M3Mq2jFUn9ZvImMN_dROBxWjpuH9ix5utkoMK8Fy0FQ7FCYfaPjrhwmkmo-Kj_Eqba56ppxJfyfvCEeTNIFC7WAZSTenn9IEmu9Bc7-hoEpRwkG1aksIF8o6dl444Aafku-piSAnmSlDlSHce1En89kK-jU3gJT2LoLhfUNabe3ttXEQxfdJIDoJuttEFjXDZpWcA5IBwmDEP6Wi-OHI_AURAnzHuEG-VRZM1TfbemGrrbAsfXu-j1otkE",
+											"type": "string"
+										}
+									]
+								},
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "formdata",
+									"formdata": [
+										{
+											"key": "status_id",
+											"value": "1",
+											"type": "text"
+										}
+									]
+								},
+								"url": {
+									"raw": "{{base_url}}/api/nurse/orders/1/update-status?=1",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"orders",
+										"1",
+										"update-status"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notifications",
+					"item": [
+						{
+							"name": "Read Notifications",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/notifications/2/read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"notifications",
+										"2",
+										"read"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Read All Notifications",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/notifications/mark-all-as-read",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"notifications",
+										"mark-all-as-read"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "Get Notification List",
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "{{base_url}}/api/nurse/notifications",
+									"host": [
+										"{{base_url}}"
+									],
+									"path": [
+										"api",
+										"nurse",
+										"notifications"
+									]
+								}
+							},
+							"response": []
+						}
+					]
+				},
+				{
+					"name": "Notification Test",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/test-fcm",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"test-fcm"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "bearer",
+				"bearer": [
+					{
+						"key": "token",
+						"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiIyIiwianRpIjoiZWE2NWNkOWZlMDc2NTkzOGU1YTAxZjA1MTdhN2RlMmI1MDI3NmMyOTI1MWVkZDNjNzNhNmIxOTMzN2YwOWNmMWU5YTVlOGY3NDYzNDMzOWIiLCJpYXQiOjE3NDY5NjczNzEuMjQwNTI0LCJuYmYiOjE3NDY5NjczNzEuMjQwNTI1LCJleHAiOjE3Nzg1MDMzNzEuMjI1OTI2LCJzdWIiOiIxNCIsInNjb3BlcyI6WyIqIl19.vYS7h0KL08lf0XQX31pUvXCrmcnwJq1nn9H_b-1vkZlNJNC7ekx3ixJNoWme1pHSZ-oHKPJkf4uk3q-b4nKNU33cyh-M3hE5IrgfcVR9gURvVv084g8yOUxe5LcxVflPStVaykaemgPg-2HZg6IHdTRCU7E4Yadhxn9b3Vl5PuRtvHax7xD_OB6ytKs8ec-Ciow0rRu_L2B-ubjLYo4G2tY1T6n8C8axpm-0RTE1cXANOFds9ttbJn259s5bUOdXvy_Ji9g3xQsy285YfGsWKCLH405H0uGQAZlbZiDwOECr1iCXGmRS84-EIwIXQYty79ihzbgX6Is9dENRHtLyCIaz7sMAiz6_wyQ5KZ_zZ0uFye7CVgkj3jkH0UIAaCOqyTH0saFTXwOoUdWIF9UmeQoM_FWqr4vudem_1UWkvASy9C3tRi-ICGJmOEmN4Ox11vHOL0geCKHN9tRIY-thOKWahMqbo5TbwztN7fhhyUtoC22pF32pioFADuEIbbGtXkNN5CoLMSaICtKt8tAcLTLXYcEAiAfV40HwlheaI9Comd8s5ghVSTbSMLqXRZtOc1--PAh5iVnG0adgLIylNTM5TKnslLcX7M3cVwrasgyRp5J-HhtMnjWHdEzmeq7dzy1G7kqN2ejjJ8zQje_k1hFGmNBCAY1EiztrtG5-bWA",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"packages": {},
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI1IiwianRpIjoiMTRhNGY2NWQ0YWQ0OTU2MjExY2UxNWUwMjY2YzZhZWMzMTZiOGFjODJkMTVkYzEzMjVhMTYzYmUxM2U0ZWUxOTZlYmJiYTUwODEwMGYzZGEiLCJpYXQiOjE3NDU4Mjg0NTQuOTA3NzM2LCJuYmYiOjE3NDU4Mjg0NTQuOTA3NzQxLCJleHAiOjE3NzczNjQ0NTMuNDMzMjUsInN1YiI6IjciLCJzY29wZXMiOlsiKiJdfQ.GYiBHqdR0zyFuCHNf8OsCjYMl-G2iKJF-aZ7RLQbXC7wLW0e_nBjWuTaFsmXjWIDViSx_9nB1WTfvn09dx9WtG_3SPVGZCS-pK_DeRc2WTHp-9EmqbfJ7zx4EJIksQQoMHXn9-H8wIKnbs--vCo5_5tfguP6iLgxizQPHJAhw7Otuh_2Kzj8ouTIeEp71pRlw9f6NRwW4sAliT6veZSHs6fzIKaXueJ7Y_GBQrWkz8BKkFMx126Ue0_H4dvVINhB8jaE8RtQoJb0m2I63A3iRZCL_lbxkMt_Ptk6jUCdcuMU05v3VPe5z2gNLTbuiu2loXsGfKh9kJXU9C1GQZ4EiJ65hFAMRcgnqpNI0Um_PCy_9VPJqqCS3AaH2VCjxffHidsQXWrc12vedgDzKUlXFF-o2On4HU1URC9sGqVVWBNHeCvQfjOoZ1og-2-XL0vhaVnYomhqP7rdcKoZEZOxy0SbaQOS4HnMOqvaCfKowyvs86fZ6_oi5shRbT1skPJVifeUzzCxqmERJ6OO7ppYGs0pdH-cgAgCELZ6yqucciLD5hCF50VPHDLifNLfmutwhuDmvcJHdEedvhfHedFU66fwqTTj0WieWTFWhnostrnQeByGYObBGUYod9P6DJrqTCjD-usYESPnu9w0RV-Qfmy8dr4hrSBdqSU0-8_t1EM",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "https://nnursing.net/nursing-app",
+			"type": "string"
+		},
+		{
+			"key": "token",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
